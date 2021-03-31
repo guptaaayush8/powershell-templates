@@ -12,9 +12,9 @@ if(-not $ResourceExist){
 }
 
 try{
-    New-AzRoleAssignment -ObjectId $GroupID -RoleDefinitionName $Role -ResourceGroupName $ResourceGroupName
+    New-AzRoleAssignment -ObjectId $GroupID -RoleDefinitionName "Contributor" -ResourceGroupName $ResourceGroupName
 }
 catch{
-    
+    $_   
 }
 
