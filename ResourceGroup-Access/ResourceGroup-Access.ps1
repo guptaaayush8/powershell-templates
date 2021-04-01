@@ -26,6 +26,7 @@ try{
     New-AzRoleAssignment -ObjectId $GroupID -RoleDefinitionName $Role -ResourceGroupName $ResourceGroupName
 }
 catch{
+    $_
     Write-Host "Role already exist"   
 }
 
