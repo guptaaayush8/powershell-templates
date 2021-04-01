@@ -5,7 +5,7 @@
     $GroupID = @('25c3d51c-622d-43c6-9fde-b437dd1e2222')
 )
 
-$ResourceExist = Get-AzResourceGroup -Name "$ResourceGroup"  -ErrorAction SilentlyContinue
+$ResourceExist = Get-AzResourceGroup -Name $ResourceGroupName  -ErrorAction SilentlyContinue
 
 if(-not $ResourceExist){
     Write-Host "resource group '$ResourceGroupName' does not exist, Creating it"
