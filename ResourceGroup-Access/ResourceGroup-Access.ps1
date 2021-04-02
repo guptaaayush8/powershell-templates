@@ -1,8 +1,8 @@
 ﻿param(
     $ResourceGroupName,
     $Location = "East US",
-    $Role=@('Contributor'),
-    $GroupID = @('25c3d51c-622d-43c6-9fde-b437dd1e2222')
+    $Role='Contributor',
+    $GroupID = '25c3d51c-622d-43c6-9fde-b437dd1e2222'
 )
 
 $ResourceExist = Get-AzResourceGroup -Name $ResourceGroupName  -ErrorAction SilentlyContinue
@@ -26,6 +26,7 @@ try{
     New-AzRoleAssignment -ObjectId $GroupID -RoleDefinitionName $Role -ResourceGroupName $ResourceGroupName
 }
 catch{
+    $_
     Write-Host "Role already exist"   
 }
 
