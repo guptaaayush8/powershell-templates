@@ -2,7 +2,7 @@
 $FileBrowser = New-Object System.Windows.Forms.OpenFileDialog -Property @{
     InitialDirectory = [Environment]::GetFolderPath('MyDocuments')
     MultiSelect = $true
-    Title='HRIntelex File Place'
+    Title='Select files for drop location'
 }
 
 if($FileBrowser.ShowDialog() -ne [System.Windows.Forms.DialogResult]::OK){
@@ -10,21 +10,12 @@ if($FileBrowser.ShowDialog() -ne [System.Windows.Forms.DialogResult]::OK){
 }
 
 
- $FolderName = New-Object System.Windows.Forms.FolderBrowserDialog -Property @{
-    Description = "Select Receive Location Folder"
-    ShowNewFolderButton = $false
+$OutputFolder = $((New-Object -ComObject "Shell.Application").BrowseForFolder(0,"Select drop location:",2047)).Self.Path
 
- }
-
-$Topmost = New-Object System.Windows.Forms.Form
-$Topmost.TopMost = $True
-$Topmost.MinimizeBox = $True
-
-if ($FolderName.ShowDialog() -ne [System.Windows.Forms.DialogResult]::OK){
+if($OutputFolder -notmatch "\w"){
     break;
 }
 
-$outputFolder = $FolderName.SelectedPath
 $NewFile = @()
 foreach($File in $FileBrowser.FileNames){
     $FileName = (gi $File).Name
@@ -34,4 +25,4 @@ foreach($File in $FileBrowser.FileNames){
 
 Write-Host "File(s) Placed for Processing :`n$($Newfile -join "`n")"
 $FileBrowser.Dispose()
-$FolderName.Dispose()
+#$FolderName.Dispose()
