@@ -39,17 +39,17 @@ $Var2 =  "{
             'isSecret': false,
             'value': 'rg-integration-systemapp-prd'
         },
-        'rg-funapp-dev': {
+        'funapp-dev': {
             'isSecret': false,
-            'value': 'azfun-integration-lyb-dev'
+            'value': 'azfun-$Name-dev'
         },
-        'rg-funapp-nonprd': {
+        'funapp-nonprd': {
             'isSecret': false,
-            'value': 'azfun-integration-lyb-nonprd'
+            'value': 'azfun-$Name-nonprd'
         },
-        'rg-funapp-prd': {
+        'funapp-prd': {
             'isSecret': false,
-            'value': 'azfun-integration-lyb-prd'
+            'value': 'azfun-$name-prd'
         },
         'rg-prd': {
             'isSecret': false,
@@ -108,17 +108,17 @@ $Var2 =  "{
             'isSecret': false,
             'value': 'rg-integration-systemapp-prd'
         },
-        'rg-funapp-dev': {
+        'funapp-dev': {
             'isSecret': false,
-            'value': 'azfun-integration-lyb-dev'
+            'value': 'azfun-$Name-dev'
         },
-        'rg-funapp-nonprd': {
+        'funapp-nonprd': {
             'isSecret': false,
-            'value': 'azfun-integration-lyb-nonprd'
+            'value': 'azfun-$Name-nonprd'
         },
-        'rg-funapp-prd': {
+        'funapp-prd': {
             'isSecret': false,
-            'value': 'azfun-integration-lyb-prd'
+            'value': 'azfun-$name-prd'
         },
         'rg-prd': {
             'isSecret': false,
