@@ -27,9 +27,29 @@ $Var2 =  "{
             'isSecret': false,
             'value': 'rg-$Name-nonprd'
         },
-        'rg-nonprd2': {
+        'rg-systemapp-dev': {
             'isSecret': false,
-            'value': 'rg-$Name-nonprd'
+            'value': 'rg-integration-systemapp-dev'
+        },
+        'rg-systemapp-nonprd': {
+            'isSecret': false,
+            'value': 'rg-integration-systemapp-nonprd'
+        },
+        'rg-systemapp-prd': {
+            'isSecret': false,
+            'value': 'rg-integration-systemapp-prd'
+        },
+        'rg-funapp-dev': {
+            'isSecret': false,
+            'value': 'azfun-integration-lyb-dev'
+        },
+        'rg-funapp-nonprd': {
+            'isSecret': false,
+            'value': 'azfun-integration-lyb-nonprd'
+        },
+        'rg-funapp-prd': {
+            'isSecret': false,
+            'value': 'azfun-integration-lyb-prd'
         },
         'rg-prd': {
             'isSecret': false,
@@ -47,12 +67,23 @@ $Var2 =  "{
 
  }
 
+
+
+$VariableGroups = Invoke-RestMethod -Method get -Uri $CommonURI -Headers $Auth
+
+$Names = $VariableGroups.value|select name,id
+
+
+
 #UpdateAll Variable Groups
 
- $CommonURI = "https://dev.azure.com/LyondellBasell/Cloud Integration/_apis/distributedtask/variablegroups/$GroupID?api-version=6.0-preview.2"
 
- foreach($Name in $Names|sort){
 
+ foreach($entry in $Names|sort -Property id){
+
+ $Name = $entry.name -replace "var-lc-",$1
+ $GroupID=$entry.id
+  $CommonURI = "https://dev.azure.com/LyondellBasell/Cloud Integration/_apis/distributedtask/variablegroups/$($GroupID)?api-version=6.0-preview.2"
 $Var2 =  "{
     'name': 'Library',
     'type': 'Vsts',
@@ -65,9 +96,29 @@ $Var2 =  "{
             'isSecret': false,
             'value': 'rg-$Name-nonprd'
         },
-        'rg-nonprd2': {
+        'rg-systemapp-dev': {
             'isSecret': false,
-            'value': 'rg-$Name-nonprd'
+            'value': 'rg-integration-systemapp-dev'
+        },
+        'rg-systemapp-nonprd': {
+            'isSecret': false,
+            'value': 'rg-integration-systemapp-nonprd'
+        },
+        'rg-systemapp-prd': {
+            'isSecret': false,
+            'value': 'rg-integration-systemapp-prd'
+        },
+        'rg-funapp-dev': {
+            'isSecret': false,
+            'value': 'azfun-integration-lyb-dev'
+        },
+        'rg-funapp-nonprd': {
+            'isSecret': false,
+            'value': 'azfun-integration-lyb-nonprd'
+        },
+        'rg-funapp-prd': {
+            'isSecret': false,
+            'value': 'azfun-integration-lyb-prd'
         },
         'rg-prd': {
             'isSecret': false,
@@ -80,7 +131,6 @@ $Var2 =  "{
         }
     }]
 }"
-
  Invoke-RestMethod -Method Put -Uri $CommonURI -Headers $Auth -Body $var2 -ContentType 'application/json'
 
  }
