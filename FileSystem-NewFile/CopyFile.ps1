@@ -19,10 +19,10 @@ if($OutputFolder -notmatch "\w"){
 $NewFile = @()
 foreach($File in $FileBrowser.FileNames){
     $FileName = (gi $File).Name
-    $fileContent = gc $file -ReadCount 0
-    $NewFile+= (New-Item -Path "$outputFolder\$FileName" -ItemType File -Value $fileContent -Force).FullName
+    Copy-Item -Path $FileBrowser.FileName -Destination $OutputFolder
+    gi $OutputFolder\$Filename |where{$_.LastWriteTime = Get-Date}
 }
 
 Write-Host "File(s) Placed for Processing :`n$($Newfile -join "`n")"
 $FileBrowser.Dispose()
-#$FolderName.Dispose()
+#$FolderName.Dispose();Start-BitsTransfer -Source $File -Destination $outputFolder

@@ -123,6 +123,14 @@ $Var2 =  "{
         'rg-prd': {
             'isSecret': false,
             'value': 'rg-$Name-prd'
+        },
+        'repo-name': {
+            'isSecret': false,
+            'value': 'rg-$Name'
+        },
+        'build-name': {
+            'isSecret': false,
+            'value': '_rg-$Name'
         }}, 
     'variableGroupProjectReferences': [{
         'name': 'var-lc-$Name',
