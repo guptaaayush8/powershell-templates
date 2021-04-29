@@ -16,13 +16,45 @@ if($OutputFolder -notmatch "\w"){
     break;
 }
 
-$NewFile = @()
-foreach($File in $FileBrowser.FileNames){
-    $FileName = (gi $File).Name
-    Copy-Item -Path $FileBrowser.FileName -Destination $OutputFolder
-    gi $OutputFolder\$Filename |where{$_.LastWriteTime = Get-Date}
+$wshell = New-Object -ComObject Wscript.Shell
+
+$confirmationMessage  =@"
+Selected $($FileBrowser.FileNames.count) file(s) for processing: 
+ ->$($FileBrowser.SafeFileNames -join "`r`n ->")
+
+To Location : 
+ ->$OutputFolder
+
+Press Yes to confirm
+"@
+$Continue = $wshell.Popup("$confirmationMessage",0,"Confirmation",32+4)
+
+if($Continue -ne 6){
+    break;
 }
 
-Write-Host "File(s) Placed for Processing :`n$($Newfile -join "`n")"
+
+$successFiles = @()
+$failedFiles = @()
+foreach($File in $FileBrowser.FileNames){
+    $FileName = (gi $File).Name
+    try{
+        Copy-Item -Path $File -Destination $OutputFolder
+        gi $OutputFolder\$Filename | where{$_.LastWriteTime = Get-Date}
+        $successFiles += $FileName
+    }
+    catch{
+        $failedFiles += $FileName
+    }
+}
+
+@"
+File(s) Placed for Processing :
+ ->$($successFiles -join "`r`n ->")
+
+Unable to place the following files: 
+ ->$($failedFiles -join "`r`n ->")
+"@
+
 $FileBrowser.Dispose()
 #$FolderName.Dispose();Start-BitsTransfer -Source $File -Destination $outputFolder
