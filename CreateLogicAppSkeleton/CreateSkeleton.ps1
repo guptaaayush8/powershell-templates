@@ -1,12 +1,14 @@
-﻿Connect-AzAccount -Subscription lyb-nonprd
+﻿Connect-AzureRMAccount -Subscription lyb-nonprd
 $rg = 'rg-integration-jostinbound-dev'
 $app = 'lapp-jostinbound-messagess'
 $VerbosePreference = 'Continue'
 
-$logicapp = Get-AzResource -ResourceGroupName $RG -ResourceType Microsoft.Logic/workflows -ResourceName "$App"
-$LatestRun = Get-AzLogicAppRunHistory -ResourceGroupName $rg -Name $app |select -First 1
-$TriggerAction = Get-AzLogicAppTriggerHistory -ResourceGroupName $rg -Name $app -HistoryName $LatestRun.Name -TriggerName $LatestRun.Trigger.Name -Verbose
-$RunAction = (Get-AzLogicAppRunAction -ResourceGroupName "$RG" -Name "$App" -RunName $LatestRun.Name)|sort -Property "StartTime","EndTime"|select 'Name','Status','Code','StartTime','EndTime'
+$logicapp = Get-AzureRMResource -ResourceGroupName $RG -ResourceType Microsoft.Logic/workflows -ResourceName "$App"
+$LatestRun = Get-AzureRMLogicAppRunHistory -ResourceGroupName $rg -Name $app |select -First 1
+$TriggerAction = Get-AzureRMLogicAppTriggerHistory -ResourceGroupName $rg -Name $app -HistoryName $LatestRun.Name -TriggerName $LatestRun.Trigger.Name -Verbose
+$RunAction = (Get-AzureRMLogicAppRunAction -ResourceGroupName "$RG" -Name "$App" -RunName $LatestRun.Name)|sort -Property "StartTime","EndTime"
+
+
 
 $def = $logicapp.Properties.definition
 
@@ -16,8 +18,11 @@ class Node{
     [String]$Name
     [String]$Status
     [String]$Code
-    [Datetime]$StartTime
-    [Datetime]$EndTime
+    [String]$StartTime
+    [String]$EndTime
+    [pscustomobject]$Error
+    [pscustomobject]$Input
+    [pscustomobject]$Output
     [Node]$SubTree
     [Node[]]$NextNodes
     [String[]]$ParentStatus
@@ -54,6 +59,20 @@ function FindNextNodes{
 function RecurseAttach{
     param($actions,$Parent)
     $NextNodes = FindNextNodes -action $actions -CurrentNode $Parent
+    $ParentName = $parent.Name
+    $parent.status = ($RunAction|where {$_.Name -eq $ParentName}).status
+    $parent.Code = ($RunAction|where {$_.Name -eq $ParentName}).code
+    $parent.StartTime = ($RunAction|where {$_.Name -eq $ParentName}).StartTime
+    $parent.EndTime = ($RunAction|where {$_.Name -eq $ParentName}).EndTime
+    $parent.Error = ($RunAction|where {$_.Name -eq $ParentName}).Error
+
+    try{
+    $parent.Input = Invoke-RestMethod ($RunAction|where {$_.Name -eq $ParentName}).InputsLink.Uri
+    }catch{}
+    try{
+    $parent.Output = Invoke-RestMethod ($RunAction|where {$_.Name -eq $ParentName}).OutputsLink.Uri
+    }catch{}
+
     $parent.NextNodes = $NextNodes
     
     Write-Verbose ($Parent|Out-String)
@@ -80,7 +99,3 @@ $root = FindParentNode -actions $actions
 
 $LogicAppStructure = RecurseAttach -actions $actions -Parent $root
 
-
-
-
-$LogicAppStructure
