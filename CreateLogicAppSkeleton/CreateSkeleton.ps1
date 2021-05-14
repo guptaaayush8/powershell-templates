@@ -1,20 +1,4 @@
-﻿#Connect-AzureRMAccount -Subscription lyb-nonprd
-$rg = 'rg-integration-svccsvtoexcel-dev'
-$app = 'lapp-svccsvtoexcel'
-$VerbosePreference = 'Continue'
-
-$logicapp = Get-AzureRMResource -ResourceGroupName $RG -ResourceType Microsoft.Logic/workflows -ResourceName "$App"
-$LatestRun = Get-AzureRMLogicAppRunHistory -ResourceGroupName $rg -Name $app |select -First 1
-$TriggerAction = Get-AzureRMLogicAppTriggerHistory -ResourceGroupName $rg -Name $app -HistoryName $LatestRun.Name -TriggerName $LatestRun.Trigger.Name -Verbose
-$RunAction = (Get-AzureRMLogicAppRunAction -ResourceGroupName "$RG" -Name "$App" -RunName $LatestRun.Name)|sort -Property "StartTime","EndTime"
-
-
-
-$def = $logicapp.Properties.definition
-
-$actions = $def.actions
-
-class Node{
+﻿class Node{
     [String]$Name
     [String]$Status
     [String]$Code
@@ -93,10 +77,59 @@ function RecurseAttach{
     }
     return $Parent
 }
+class Trigger {
+
+    [String]$TriggerName
+    [String]$Code
+    [String]$EndTime
+    [String]$Fired    
+    [String]$ExecutionID
+    [String]$StartTime
+    [String]$Status
+    [pscustomobject]$Input
+    [pscustomobject]$Output
+
+    fetchinput($uri) {
+    try{
+        $this.Input = Invoke-RestMethod $uri
+    }catch{}
+    }
+    fetchOutput($uri) {
+    try{
+        $this.Output = Invoke-RestMethod $uri
+    }catch{}
+    }
+}
+#Connect-AzureRMAccount -Subscription lyb-nonprd
+$rg = 'rg-integration-misysinbound-dev'
+$app = 'lapp-misysinbound-sftp'
+$VerbosePreference = 'Continue'
+
+$logicapp = Get-AzureRMResource -ResourceGroupName $RG -ResourceType Microsoft.Logic/workflows -ResourceName "$App"
+$LatestRun = Get-AzureRMLogicAppRunHistory -ResourceGroupName $rg -Name $app |select -First 1
+$TriggerAction = Get-AzureRMLogicAppTriggerHistory -ResourceGroupName $rg -Name $app -HistoryName $LatestRun.Name -TriggerName $LatestRun.Trigger.Name -Verbose
+$RunAction = (Get-AzureRMLogicAppRunAction -ResourceGroupName "$RG" -Name "$App" -RunName $LatestRun.Name)|sort -Property "StartTime","EndTime"
+
+
+
+$def = $logicapp.Properties.definition
+
+$actions = $def.actions
+
 
 
 $root = FindParentNode -actions $actions
 
 $LogicAppStructure = RecurseAttach -actions $actions -Parent $root
 
-$LogicAppStructure |ConvertTo-Json -Depth 99|Set-Clipboard
+
+$Triggerobj = New-Object Trigger -Property @{TriggerName = $LatestRun.Trigger.Name; Code = $TriggerAction.Code; EndTime = $TriggerAction.EndTime; Fired = $TriggerAction.Fired ; ExecutionId = $TriggerAction.Name; StartTime = $TriggerAction.StartTime; Status = $TriggerAction.Status }
+
+$Triggerobj.fetchinput($TriggerAction.InputsLink.Uri)
+$Triggerobj.fetchOutput($TriggerAction.OutputsLink.Uri)
+
+$Outobj = ""|select Trigger, LogicBody
+
+$Outobj.Trigger = $Triggerobj
+$Outobj.LogicBody = $LogicAppStructure
+$outobj|ConvertTo-Json -Depth 99 |Set-Clipboard
