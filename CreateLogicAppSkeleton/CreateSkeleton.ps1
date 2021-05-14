@@ -1,6 +1,6 @@
 ﻿#Connect-AzureRMAccount -Subscription lyb-nonprd
-$rg = 'rg-integration-jostinbound-dev'
-$app = 'lapp-jostinbound-messagess'
+$rg = 'rg-integration-svccsvtoexcel-dev'
+$app = 'lapp-svccsvtoexcel'
 $VerbosePreference = 'Continue'
 
 $logicapp = Get-AzureRMResource -ResourceGroupName $RG -ResourceType Microsoft.Logic/workflows -ResourceName "$App"
@@ -99,3 +99,4 @@ $root = FindParentNode -actions $actions
 
 $LogicAppStructure = RecurseAttach -actions $actions -Parent $root
 
+$LogicAppStructure |ConvertTo-Json -Depth 99|Set-Clipboard
