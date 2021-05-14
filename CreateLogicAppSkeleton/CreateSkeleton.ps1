@@ -1,10 +1,12 @@
 ﻿Connect-AzAccount -Subscription lyb-nonprd
-$rg = 'rg-integration-svccsvtoexcel-dev'
-$app = 'lapp-svccsvtoexcel'
+$rg = 'rg-integration-jostinbound-dev'
+$app = 'lapp-jostinbound-messagess'
 $VerbosePreference = 'Continue'
 
 $logicapp = Get-AzResource -ResourceGroupName $RG -ResourceType Microsoft.Logic/workflows -ResourceName "$App"
-$logicapp.properties.definition | ConvertTo-Json
+$LatestRun = Get-AzLogicAppRunHistory -ResourceGroupName $rg -Name $app |select -First 1
+$TriggerAction = Get-AzLogicAppTriggerHistory -ResourceGroupName $rg -Name $app -HistoryName $LatestRun.Name -TriggerName $LatestRun.Trigger.Name -Verbose
+$RunAction = (Get-AzLogicAppRunAction -ResourceGroupName "$RG" -Name "$App" -RunName $LatestRun.Name)|sort -Property "StartTime","EndTime"|select 'Name','Status','Code','StartTime','EndTime'
 
 $def = $logicapp.Properties.definition
 
@@ -12,13 +14,16 @@ $actions = $def.actions
 
 class Node{
     [String]$Name
-    [Node[]]$NextNodes
+    [String]$Status
+    [String]$Code
+    [Datetime]$StartTime
+    [Datetime]$EndTime
     [Node]$SubTree
+    [Node[]]$NextNodes
     [String[]]$ParentStatus
+    
 }
 
-
-#FindParent
 function FindParentNode{
 param($actions)
     
@@ -76,6 +81,6 @@ $root = FindParentNode -actions $actions
 $LogicAppStructure = RecurseAttach -actions $actions -Parent $root
 
 
-$LatestRun = Get-AzLogicAppRunHistory -ResourceGroupName $rg -Name $app |select -First 1
-$TriggerAction = Get-AzLogicAppTriggerHistory -ResourceGroupName $rg -Name $app -HistoryName $LatestRun.Name -TriggerName $LatestRun.Trigger.Name -Verbose
-$RunAction = (Get-AzLogicAppRunAction -ResourceGroupName "$RG" -Name "$App" -RunName $LatestRun.Name)|sort -Property "StartTime","EndTime"|select 'Name','Status','Code','StartTime','EndTime'
+
+
+$LogicAppStructure
