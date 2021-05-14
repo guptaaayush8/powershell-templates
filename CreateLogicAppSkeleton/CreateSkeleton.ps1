@@ -1,4 +1,4 @@
-﻿Connect-AzureRMAccount -Subscription lyb-nonprd
+﻿#Connect-AzureRMAccount -Subscription lyb-nonprd
 $rg = 'rg-integration-jostinbound-dev'
 $app = 'lapp-jostinbound-messagess'
 $VerbosePreference = 'Continue'
@@ -20,7 +20,7 @@ class Node{
     [String]$Code
     [String]$StartTime
     [String]$EndTime
-    [pscustomobject]$Error
+   # [pscustomobject]$Error
     [pscustomobject]$Input
     [pscustomobject]$Output
     [Node]$SubTree
@@ -64,7 +64,7 @@ function RecurseAttach{
     $parent.Code = ($RunAction|where {$_.Name -eq $ParentName}).code
     $parent.StartTime = ($RunAction|where {$_.Name -eq $ParentName}).StartTime
     $parent.EndTime = ($RunAction|where {$_.Name -eq $ParentName}).EndTime
-    $parent.Error = ($RunAction|where {$_.Name -eq $ParentName}).Error
+   # $parent.Error = ($RunAction|where {$_.Name -eq $ParentName}).Error
 
     try{
     $parent.Input = Invoke-RestMethod ($RunAction|where {$_.Name -eq $ParentName}).InputsLink.Uri
