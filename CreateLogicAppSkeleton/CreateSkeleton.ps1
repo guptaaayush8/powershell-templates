@@ -140,14 +140,15 @@ $Triggerobj = New-Object Trigger -Property @{TriggerName = $LatestRun.Trigger.Na
 #$Triggerobj.fetchinput($TriggerAction.InputsLink.Uri)
 #$Triggerobj.fetchOutput($TriggerAction.OutputsLink.Uri)
 
-$Outobj = ""|select LogicApp,ResourceGroup,Status,StartTime,EndTime,Trigger,LogicBody
+$Outobj = ""|select LogicApp,ResourceGroup,Status,StartTime,EndTime,ExecutionTimeSec,Trigger,LogicBody
 
 $Outobj.Trigger = $Triggerobj
 $Outobj.LogicBody = $LogicAppStructure
 $Outobj.LogicApp = $app
 $Outobj.ResourceGroup = $rg
-$Outobj.EndTime = $LatestRun.EndTime|Out-String
-$Outobj.StartTime = $LatestRun.StartTime|Out-String
+$Outobj.EndTime = $LatestRun.EndTime.ToString()
+$Outobj.StartTime = $LatestRun.StartTime.ToString()
 $Outobj.Status = $LatestRun.Status
+$Outobj.ExecutionTimeSec = ($LatestRun.EndTime - $LatestRun.StartTime).TotalSeconds
 
 $outobj|ConvertTo-Json -Depth 99 |Set-Clipboard
