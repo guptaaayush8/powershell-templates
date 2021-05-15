@@ -51,10 +51,10 @@ function RecurseAttach{
    # $parent.Error = ($RunAction|where {$_.Name -eq $ParentName}).Error
 
     try{
-    #$parent.Input = Invoke-RestMethod ($RunAction|where {$_.Name -eq $ParentName}).InputsLink.Uri
+    $parent.Input = Invoke-RestMethod ($RunAction|where {$_.Name -eq $ParentName}).InputsLink.Uri
     }catch{}
     try{
-    #$parent.Output = Invoke-RestMethod ($RunAction|where {$_.Name -eq $ParentName}).OutputsLink.Uri
+    $parent.Output = Invoke-RestMethod ($RunAction|where {$_.Name -eq $ParentName}).OutputsLink.Uri
     }catch{}
 
     $parent.NextNodes = $NextNodes
@@ -137,8 +137,8 @@ $LogicAppStructure = RecurseAttach -actions $action -Parent $root
 
 $Triggerobj = New-Object Trigger -Property @{TriggerName = $LatestRun.Trigger.Name; Code = $TriggerAction.Code; EndTime = $TriggerAction.EndTime; Fired = $TriggerAction.Fired ; ExecutionId = $TriggerAction.Name; StartTime = $TriggerAction.StartTime; Status = $TriggerAction.Status;OtherTriggers = $AdditionalTrigger }
 
-#$Triggerobj.fetchinput($TriggerAction.InputsLink.Uri)
-#$Triggerobj.fetchOutput($TriggerAction.OutputsLink.Uri)
+$Triggerobj.fetchinput($TriggerAction.InputsLink.Uri)
+$Triggerobj.fetchOutput($TriggerAction.OutputsLink.Uri)
 
 $Outobj = ""|select LogicApp,ResourceGroup,Status,StartTime,EndTime,ExecutionTimeSec,Trigger,LogicBody
 
