@@ -30,7 +30,7 @@ param($actions)
 function FindNextNodes{
     param($action,$CurrentNode)
     $Name  = $currentnode.name
-    $LayerItems = ($actions|gm -MemberType NoteProperty).Name|where {$_ -ne $Name}
+    $LayerItems = ($action|gm -MemberType NoteProperty).Name|where {$_ -ne $Name}
     $Nodes =  @()
     foreach($item in $LayerItems){
         if(($action.$item.runAfter|select $Name).$Name){
@@ -51,16 +51,29 @@ function RecurseAttach{
    # $parent.Error = ($RunAction|where {$_.Name -eq $ParentName}).Error
 
     try{
-    $parent.Input = Invoke-RestMethod ($RunAction|where {$_.Name -eq $ParentName}).InputsLink.Uri
+    #$parent.Input = Invoke-RestMethod ($RunAction|where {$_.Name -eq $ParentName}).InputsLink.Uri
     }catch{}
     try{
-    $parent.Output = Invoke-RestMethod ($RunAction|where {$_.Name -eq $ParentName}).OutputsLink.Uri
+    #$parent.Output = Invoke-RestMethod ($RunAction|where {$_.Name -eq $ParentName}).OutputsLink.Uri
     }catch{}
 
     $parent.NextNodes = $NextNodes
     
     Write-Verbose ($Parent|Out-String)
-    if($parent.NextNodes -eq $null){return $null}
+    if($parent.NextNodes -eq $null){
+        
+        $NodeName = $Parent.Name
+        if(($actions.$NodeName|gm -MemberType NoteProperty).Name -contains 'actions'){
+            
+            $InternalParent = FindParentNode -actions $actions.$NodeName.actions
+            $InternalTree = RecurseAttach -actions $actions.$NodeName.actions -Parent $InternalParent
+            $parent.SubTree = $InternalTree
+        }
+    else{
+        return $null
+        }
+    
+    }
 
     foreach($node in $parent.NextNodes){
         $NodeName = $node.Name
@@ -100,33 +113,33 @@ class Trigger {
     }catch{}
     }
 }
-#Connect-AzureRMAccount -Subscription lyb-nonprd
-$rg = 'rg-integration-misysinbound-dev'
-$app = 'lapp-misysinbound-sftp'
+#Connect-AzAccount -Subscription lyb-nonprd
+$rg = 'rg-integration-logisticsbackuppop-nonprd'
+$app = 'lapp-logisticsbackuppop'
 $VerbosePreference = 'Continue'
 
-$logicapp = Get-AzureRMResource -ResourceGroupName $RG -ResourceType Microsoft.Logic/workflows -ResourceName "$App"
-$LatestRun = Get-AzureRMLogicAppRunHistory -ResourceGroupName $rg -Name $app |select -First 1
-$TriggerAction = Get-AzureRMLogicAppTriggerHistory -ResourceGroupName $rg -Name $app -HistoryName $LatestRun.Name -TriggerName $LatestRun.Trigger.Name -Verbose
-$RunAction = (Get-AzureRMLogicAppRunAction -ResourceGroupName "$RG" -Name "$App" -RunName $LatestRun.Name)|sort -Property "StartTime","EndTime"
+$logicapp = Get-AzResource -ResourceGroupName $RG -ResourceType Microsoft.Logic/workflows -ResourceName "$App"
+$LatestRun = Get-AzLogicAppRunHistory -ResourceGroupName $rg -Name $app |select -First 1
+$TriggerAction = Get-AzLogicAppTriggerHistory -ResourceGroupName $rg -Name $app -HistoryName $LatestRun.Name -TriggerName $LatestRun.Trigger.Name -Verbose
+$RunAction = (Get-AzLogicAppRunAction -ResourceGroupName "$RG" -Name "$App" -RunName $LatestRun.Name)|sort -Property "StartTime","EndTime"
 
 
 
 $def = $logicapp.Properties.definition
 
-$actions = $def.actions
+$action = $def.actions
 
 
 
-$root = FindParentNode -actions $actions
+$root = FindParentNode -actions $action
 
-$LogicAppStructure = RecurseAttach -actions $actions -Parent $root
+$LogicAppStructure = RecurseAttach -actions $action -Parent $root
 
 
 $Triggerobj = New-Object Trigger -Property @{TriggerName = $LatestRun.Trigger.Name; Code = $TriggerAction.Code; EndTime = $TriggerAction.EndTime; Fired = $TriggerAction.Fired ; ExecutionId = $TriggerAction.Name; StartTime = $TriggerAction.StartTime; Status = $TriggerAction.Status }
 
-$Triggerobj.fetchinput($TriggerAction.InputsLink.Uri)
-$Triggerobj.fetchOutput($TriggerAction.OutputsLink.Uri)
+#$Triggerobj.fetchinput($TriggerAction.InputsLink.Uri)
+#$Triggerobj.fetchOutput($TriggerAction.OutputsLink.Uri)
 
 $Outobj = ""|select Trigger, LogicBody
 
