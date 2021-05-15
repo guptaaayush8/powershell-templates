@@ -101,6 +101,7 @@ class Trigger {
     [String]$Status
     [pscustomobject]$Input
     [pscustomobject]$Output
+    [string[]]$OtherTriggers
 
     fetchinput($uri) {
     try{
@@ -114,8 +115,8 @@ class Trigger {
     }
 }
 #Connect-AzAccount -Subscription lyb-nonprd
-$rg = 'rg-integration-logisticsbackuppop-nonprd'
-$app = 'lapp-logisticsbackuppop'
+$rg = 'rg-integration-c2fo-dev'
+$app = 'lapp-c2fo-file'
 $VerbosePreference = 'Continue'
 
 $logicapp = Get-AzResource -ResourceGroupName $RG -ResourceType Microsoft.Logic/workflows -ResourceName "$App"
@@ -123,20 +124,18 @@ $LatestRun = Get-AzLogicAppRunHistory -ResourceGroupName $rg -Name $app |select 
 $TriggerAction = Get-AzLogicAppTriggerHistory -ResourceGroupName $rg -Name $app -HistoryName $LatestRun.Name -TriggerName $LatestRun.Trigger.Name -Verbose
 $RunAction = (Get-AzLogicAppRunAction -ResourceGroupName "$RG" -Name "$App" -RunName $LatestRun.Name)|sort -Property "StartTime","EndTime"
 
-
+$AdditionalTrigger = (Get-AzLogicAppTrigger -ResourceGroupName $rg -Name $app|where {$_.name -ne $LatestRun.Trigger.Name}).name
 
 $def = $logicapp.Properties.definition
 
 $action = $def.actions
-
-
 
 $root = FindParentNode -actions $action
 
 $LogicAppStructure = RecurseAttach -actions $action -Parent $root
 
 
-$Triggerobj = New-Object Trigger -Property @{TriggerName = $LatestRun.Trigger.Name; Code = $TriggerAction.Code; EndTime = $TriggerAction.EndTime; Fired = $TriggerAction.Fired ; ExecutionId = $TriggerAction.Name; StartTime = $TriggerAction.StartTime; Status = $TriggerAction.Status }
+$Triggerobj = New-Object Trigger -Property @{TriggerName = $LatestRun.Trigger.Name; Code = $TriggerAction.Code; EndTime = $TriggerAction.EndTime; Fired = $TriggerAction.Fired ; ExecutionId = $TriggerAction.Name; StartTime = $TriggerAction.StartTime; Status = $TriggerAction.Status;OtherTriggers = $AdditionalTrigger }
 
 #$Triggerobj.fetchinput($TriggerAction.InputsLink.Uri)
 #$Triggerobj.fetchOutput($TriggerAction.OutputsLink.Uri)
