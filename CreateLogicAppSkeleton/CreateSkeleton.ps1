@@ -151,4 +151,4 @@ $Outobj.StartTime = $LatestRun.StartTime.ToString()
 $Outobj.Status = $LatestRun.Status
 $Outobj.ExecutionTimeSec = ($LatestRun.EndTime - $LatestRun.StartTime).TotalSeconds
 
-$outobj|ConvertTo-Json -Depth 99 |Set-Clipboard
+$outobj|ConvertTo-Json -Depth 99
