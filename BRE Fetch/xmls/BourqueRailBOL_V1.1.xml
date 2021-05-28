@@ -1,0 +1,1064 @@
+<?xml version="1.0" encoding="utf-8"?>
+<brl xmlns="http://schemas.microsoft.com/businessruleslanguage/2002">
+  <ruleset name="BourqueRailBillOut">
+    <version major="1" minor="1" description="" modifiedby="LYONDELL\a_ixbhavar" date="2020-11-17T21:34:59.9567319-06:00" />
+    <configuration />
+    <bindings>
+      <xmldocument ref="xml_33" doctype="Lyo.BizTalk.BourqueRailBOL.Multi_BSD404" instances="16" selectivity="1" instance="0">
+        <selector>/</selector>
+        <schema>D:\TFS\MSFAgile\US\DEV\BizTalk2010\Interfaces\BourqueRailBOL\Code\Lyo.BizTalk.BourqueRailBOL\Multi_BSD404.xsd</schema>
+      </xmldocument>
+      <xmldocument ref="xml_32" doctype="Lyo.BizTalk.BourqueRailBOL.Multi_BSD404" instances="16" selectivity="1" instance="0">
+        <selector>/*[local-name()='File_of_Bills' and namespace-uri()='http://Lyo.BizTalk.BourqueRailBOL.Multi_BSD404']/*[local-name()='Bill_Item' and namespace-uri()='']/*[local-name()='BSD404' and namespace-uri()='']/*[local-name()='CH' and namespace-uri()='']</selector>
+        <selectoralias>/File_of_Bills/Bill_Item/BSD404/CH</selectoralias>
+        <schema>D:\TFS\MSFAgile\US\DEV\BizTalk2010\Interfaces\BourqueRailBOL\Code\Lyo.BizTalk.BourqueRailBOL\Multi_BSD404.xsd</schema>
+      </xmldocument>
+      <xmldocument ref="xml_38" doctype="Lyo.BizTalk.BourqueRailBOL.Multi_BSD404" instances="16" selectivity="1" instance="0">
+        <selector>/*[local-name()='File_of_Bills' and namespace-uri()='http://Lyo.BizTalk.BourqueRailBOL.Multi_BSD404']/*[local-name()='Bill_Item' and namespace-uri()='']/*[local-name()='BSD404' and namespace-uri()='']/*[local-name()='PD_bol_dscr' and namespace-uri()='']</selector>
+        <selectoralias>/File_of_Bills/Bill_Item/BSD404/PD_bol_dscr</selectoralias>
+        <schema>D:\TFS\MSFAgile\US\DEV\BizTalk2010\Interfaces\BourqueRailBOL\Code\Lyo.BizTalk.BourqueRailBOL\Multi_BSD404.xsd</schema>
+      </xmldocument>
+      <xmldocument ref="xml_37" doctype="Lyo.BizTalk.BourqueRailBOL.Multi_BSD404" instances="16" selectivity="1" instance="0">
+        <selector>/*[local-name()='File_of_Bills' and namespace-uri()='http://Lyo.BizTalk.BourqueRailBOL.Multi_BSD404']/*[local-name()='Bill_Item' and namespace-uri()='']/*[local-name()='BSD404' and namespace-uri()='']/*[local-name()='HZ' and namespace-uri()='']</selector>
+        <selectoralias>/File_of_Bills/Bill_Item/BSD404/HZ</selectoralias>
+        <schema>D:\TFS\MSFAgile\US\DEV\BizTalk2010\Interfaces\BourqueRailBOL\Code\Lyo.BizTalk.BourqueRailBOL\Multi_BSD404.xsd</schema>
+      </xmldocument>
+      <datarow ref="db_31" server="W11629985\LyoEaiIntegrationDb" dataset="LyoEaiIntegrationDb" table="tbl_XRef_Lookup_Details" instances="16" selectivity="1" isdataconnection="true" instance="0" />
+      <class ref="RulesEngineHelper" class="RulesEngineHelper" instance="0" instances="16" selectivity="1">
+        <assembly>Lyo.BizTalk.Services.RulesEngineHelper, Version=2.0.0.0, Culture=neutral, PublicKeyToken=e3c07478decacce4</assembly>
+        <!--C:\Windows\Microsoft.Net\assembly\GAC_MSIL\Lyo.BizTalk.Services.RulesEngineHelper\v4.0_2.0.0.0__e3c07478decacce4\Lyo.BizTalk.Services.RulesEngineHelper.dll-->
+        <namespace>Lyo.BizTalk.Services.RulesEngineHelper</namespace>
+      </class>
+      <xmldocument ref="xml_35" doctype="Lyo.BizTalk.BourqueRailBOL.Multi_BSD404" instances="16" selectivity="1" instance="0">
+        <selector>/*[local-name()='File_of_Bills' and namespace-uri()='http://Lyo.BizTalk.BourqueRailBOL.Multi_BSD404']/*[local-name()='Bill_Item' and namespace-uri()='']/*[local-name()='BSD404' and namespace-uri()='']/*[local-name()='Record_3P_C1' and namespace-uri()='']</selector>
+        <selectoralias>/File_of_Bills/Bill_Item/BSD404/Record_3P_C1</selectoralias>
+        <schema>D:\TFS\MSFAgile\US\DEV\BizTalk2010\Interfaces\BourqueRailBOL\Code\Lyo.BizTalk.BourqueRailBOL\Multi_BSD404.xsd</schema>
+      </xmldocument>
+      <xmldocument ref="xml_34" doctype="Lyo.BizTalk.BourqueRailBOL.Multi_BSD404" instances="16" selectivity="1" instance="0">
+        <selector>/*[local-name()='File_of_Bills' and namespace-uri()='http://Lyo.BizTalk.BourqueRailBOL.Multi_BSD404']/*[local-name()='Bill_Item' and namespace-uri()='']/*[local-name()='BSD404' and namespace-uri()='']/*[local-name()='HR' and namespace-uri()='']</selector>
+        <selectoralias>/File_of_Bills/Bill_Item/BSD404/HR</selectoralias>
+        <schema>D:\TFS\MSFAgile\US\DEV\BizTalk2010\Interfaces\BourqueRailBOL\Code\Lyo.BizTalk.BourqueRailBOL\Multi_BSD404.xsd</schema>
+      </xmldocument>
+      <xmldocument ref="xml_36" doctype="Lyo.BizTalk.BourqueRailBOL.Multi_BSD404" instances="16" selectivity="1" instance="0">
+        <selector>/*[local-name()='File_of_Bills' and namespace-uri()='http://Lyo.BizTalk.BourqueRailBOL.Multi_BSD404']/*[local-name()='Bill_Item' and namespace-uri()='']/*[local-name()='BSD404' and namespace-uri()='']/*[local-name()='PD' and namespace-uri()='']</selector>
+        <selectoralias>/File_of_Bills/Bill_Item/BSD404/PD</selectoralias>
+        <schema>D:\TFS\MSFAgile\US\DEV\BizTalk2010\Interfaces\BourqueRailBOL\Code\Lyo.BizTalk.BourqueRailBOL\Multi_BSD404.xsd</schema>
+      </xmldocument>
+    </bindings>
+    <rule name="CH-ER-Phone" priority="50" active="true">
+      <if>
+        <and>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="860442f5-b931-4dc8-9dd9-236359a720c7" />
+                <datarowmember datarowref="db_31" column="FromCode" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <function>
+                <xmldocumentmember xmldocumentref="xml_32" type="string" sideeffects="false">
+                  <field>*[local-name()='hazard_class' and namespace-uri()='']</field>
+                  <fieldalias>hazard_class</fieldalias>
+                </xmldocumentmember>
+              </function>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="b59b3b33-a24d-40d8-acb5-2a175082eb61" />
+                <datarowmember datarowref="db_31" column="FromLookupTypeName" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>SAP-MATNR-PARTN</string>
+              </constant>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="b00583a8-51de-4d46-87b7-f9557bf42195" />
+                <datarowmember datarowref="db_31" column="IsActive" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>Y</string>
+              </constant>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="adeb0ed9-a377-4b98-9fc6-9a076c5f8541" />
+                <datarowmember datarowref="db_31" column="ToLookupTypeName" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>BDS-ER-Phone</string>
+              </constant>
+            </rhs>
+          </compare>
+        </and>
+      </if>
+      <then>
+        <function>
+          <xmldocumentmember xmldocumentref="xml_32" type="string" sideeffects="true">
+            <field>*[local-name()='er_plan_phone_no' and namespace-uri()='']</field>
+            <fieldalias>er_plan_phone_no</fieldalias>
+            <argument>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="7b8fad6d-81f2-4517-890a-f0ba21904946" />
+                <datarowmember datarowref="db_31" column="ToCode" type="string" sideeffects="false" />
+              </function>
+            </argument>
+          </xmldocumentmember>
+        </function>
+      </then>
+    </rule>
+    <rule name="SetDestState" priority="1" active="true">
+      <if>
+        <exists>
+          <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="970c3ffe-de9e-4523-82b8-974a3c1eb686" />
+          <object>
+            <reference>
+              <xmldocumentref ref="xml_33" />
+            </reference>
+          </object>
+          <member>
+            <constant>
+              <string>/*[local-name()='File_of_Bills' and namespace-uri()='http://Lyo.BizTalk.BourqueRailBOL.Multi_BSD404']/*[local-name()='Bill_Item' and namespace-uri()='']/*[local-name()='BSD404' and namespace-uri()='']/*[local-name()='HR' and namespace-uri()='']</string>
+            </constant>
+          </member>
+        </exists>
+      </if>
+      <then>
+        <function>
+          <xmldocumentmember xmldocumentref="xml_34" type="string" sideeffects="true">
+            <field>*[local-name()='dest_state' and namespace-uri()='']</field>
+            <fieldalias>dest_state</fieldalias>
+            <argument>
+              <function>
+                <xmldocumentmember xmldocumentref="xml_35" type="string" sideeffects="false">
+                  <field>*[local-name()='state' and namespace-uri()='']</field>
+                  <fieldalias>state</fieldalias>
+                </xmldocumentmember>
+              </function>
+            </argument>
+          </xmldocumentmember>
+        </function>
+      </then>
+    </rule>
+    <rule name="CH-ER-Phone2" priority="50" active="true">
+      <if>
+        <and>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="860442f5-b931-4dc8-9dd9-236359a720c7" />
+                <datarowmember datarowref="db_31" column="FromCode" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <function>
+                <xmldocumentmember xmldocumentref="xml_32" type="string" sideeffects="false">
+                  <field>*[local-name()='hazard_class' and namespace-uri()='']</field>
+                  <fieldalias>hazard_class</fieldalias>
+                </xmldocumentmember>
+              </function>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="b59b3b33-a24d-40d8-acb5-2a175082eb61" />
+                <datarowmember datarowref="db_31" column="FromLookupTypeName" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>SAP-MATNR-PARTN</string>
+              </constant>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="b00583a8-51de-4d46-87b7-f9557bf42195" />
+                <datarowmember datarowref="db_31" column="IsActive" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>Y</string>
+              </constant>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="adeb0ed9-a377-4b98-9fc6-9a076c5f8541" />
+                <datarowmember datarowref="db_31" column="ToLookupTypeName" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>BDS-ER-Phone2</string>
+              </constant>
+            </rhs>
+          </compare>
+        </and>
+      </if>
+      <then>
+        <function>
+          <xmldocumentmember xmldocumentref="xml_32" type="string" sideeffects="true">
+            <field>*[local-name()='er_phone_number2' and namespace-uri()='']</field>
+            <fieldalias>er_phone_number2</fieldalias>
+            <argument>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="7b8fad6d-81f2-4517-890a-f0ba21904946" />
+                <datarowmember datarowref="db_31" column="ToCode" type="string" sideeffects="false" />
+              </function>
+            </argument>
+          </xmldocumentmember>
+        </function>
+      </then>
+    </rule>
+    <rule name="HZ_Dot_Notice" priority="0" active="true">
+      <if>
+        <and>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="860442f5-b931-4dc8-9dd9-236359a720c7" />
+                <datarowmember datarowref="db_31" column="FromCode" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <function>
+                <xmldocumentmember xmldocumentref="xml_36" type="string" sideeffects="false">
+                  <field>*[local-name()='comm_code' and namespace-uri()='']</field>
+                  <fieldalias>comm_code</fieldalias>
+                </xmldocumentmember>
+              </function>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="b59b3b33-a24d-40d8-acb5-2a175082eb61" />
+                <datarowmember datarowref="db_31" column="FromLookupTypeName" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>SAP-MATNR</string>
+              </constant>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="b00583a8-51de-4d46-87b7-f9557bf42195" />
+                <datarowmember datarowref="db_31" column="IsActive" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>Y</string>
+              </constant>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="adeb0ed9-a377-4b98-9fc6-9a076c5f8541" />
+                <datarowmember datarowref="db_31" column="ToLookupTypeName" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>BDS-DOT-NOTICE</string>
+              </constant>
+            </rhs>
+          </compare>
+        </and>
+      </if>
+      <then>
+        <function>
+          <xmldocumentmember xmldocumentref="xml_37" type="string" sideeffects="true">
+            <field>*[local-name()='dot113_notice' and namespace-uri()='']</field>
+            <fieldalias>dot113_notice</fieldalias>
+            <argument>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="7b8fad6d-81f2-4517-890a-f0ba21904946" />
+                <datarowmember datarowref="db_31" column="ToCode" type="string" sideeffects="false" />
+              </function>
+            </argument>
+          </xmldocumentmember>
+        </function>
+      </then>
+    </rule>
+    <rule name="ShipperCity" priority="100" active="true">
+      <if>
+        <and>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="860442f5-b931-4dc8-9dd9-236359a720c7" />
+                <datarowmember datarowref="db_31" column="FromCode" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <function>
+                <xmldocumentmember xmldocumentref="xml_34" type="string" sideeffects="false">
+                  <field>*[local-name()='shipper_city' and namespace-uri()='']</field>
+                  <fieldalias>shipper_city</fieldalias>
+                </xmldocumentmember>
+              </function>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="b59b3b33-a24d-40d8-acb5-2a175082eb61" />
+                <datarowmember datarowref="db_31" column="FromLookupTypeName" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>SAP-ShipperCity</string>
+              </constant>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="b00583a8-51de-4d46-87b7-f9557bf42195" />
+                <datarowmember datarowref="db_31" column="IsActive" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>Y</string>
+              </constant>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="adeb0ed9-a377-4b98-9fc6-9a076c5f8541" />
+                <datarowmember datarowref="db_31" column="ToLookupTypeName" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>BDS-ShipperCity</string>
+              </constant>
+            </rhs>
+          </compare>
+        </and>
+      </if>
+      <then>
+        <function>
+          <xmldocumentmember xmldocumentref="xml_34" type="string" sideeffects="true">
+            <field>*[local-name()='shipper_city' and namespace-uri()='']</field>
+            <fieldalias>shipper_city</fieldalias>
+            <argument>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="7b8fad6d-81f2-4517-890a-f0ba21904946" />
+                <datarowmember datarowref="db_31" column="ToCode" type="string" sideeffects="false" />
+              </function>
+            </argument>
+          </xmldocumentmember>
+        </function>
+      </then>
+    </rule>
+    <rule name="OriginCity" priority="100" active="true">
+      <if>
+        <and>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="860442f5-b931-4dc8-9dd9-236359a720c7" />
+                <datarowmember datarowref="db_31" column="FromCode" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <function>
+                <xmldocumentmember xmldocumentref="xml_34" type="string" sideeffects="false">
+                  <field>*[local-name()='origin_city' and namespace-uri()='']</field>
+                  <fieldalias>origin_city</fieldalias>
+                </xmldocumentmember>
+              </function>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="b59b3b33-a24d-40d8-acb5-2a175082eb61" />
+                <datarowmember datarowref="db_31" column="FromLookupTypeName" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>SAP-OriginCity</string>
+              </constant>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="b00583a8-51de-4d46-87b7-f9557bf42195" />
+                <datarowmember datarowref="db_31" column="IsActive" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>Y</string>
+              </constant>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="adeb0ed9-a377-4b98-9fc6-9a076c5f8541" />
+                <datarowmember datarowref="db_31" column="ToLookupTypeName" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>BDS-OriginCity</string>
+              </constant>
+            </rhs>
+          </compare>
+        </and>
+      </if>
+      <then>
+        <function>
+          <xmldocumentmember xmldocumentref="xml_34" type="string" sideeffects="true">
+            <field>*[local-name()='origin_city' and namespace-uri()='']</field>
+            <fieldalias>origin_city</fieldalias>
+            <argument>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="7b8fad6d-81f2-4517-890a-f0ba21904946" />
+                <datarowmember datarowref="db_31" column="ToCode" type="string" sideeffects="false" />
+              </function>
+            </argument>
+          </xmldocumentmember>
+        </function>
+      </then>
+    </rule>
+    <rule name="Switch_BillType" priority="100" active="true">
+      <if>
+        <and>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="860442f5-b931-4dc8-9dd9-236359a720c7" />
+                <datarowmember datarowref="db_31" column="FromCode" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <function>
+                <xmldocumentmember xmldocumentref="xml_34" type="string" sideeffects="false">
+                  <field>*[local-name()='dest_state' and namespace-uri()='']</field>
+                  <fieldalias>dest_state</fieldalias>
+                </xmldocumentmember>
+              </function>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="b59b3b33-a24d-40d8-acb5-2a175082eb61" />
+                <datarowmember datarowref="db_31" column="FromLookupTypeName" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>SAP-SwitchLookup</string>
+              </constant>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="b00583a8-51de-4d46-87b7-f9557bf42195" />
+                <datarowmember datarowref="db_31" column="IsActive" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>Y</string>
+              </constant>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="adeb0ed9-a377-4b98-9fc6-9a076c5f8541" />
+                <datarowmember datarowref="db_31" column="ToLookupTypeName" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>BDS-SwitchBilling</string>
+              </constant>
+            </rhs>
+          </compare>
+        </and>
+      </if>
+      <then>
+        <function>
+          <xmldocumentmember xmldocumentref="xml_34" type="string" sideeffects="true">
+            <field>*[local-name()='bill_type' and namespace-uri()='']</field>
+            <fieldalias>bill_type</fieldalias>
+            <argument>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="7b8fad6d-81f2-4517-890a-f0ba21904946" />
+                <datarowmember datarowref="db_31" column="ToCode" type="string" sideeffects="false" />
+              </function>
+            </argument>
+          </xmldocumentmember>
+        </function>
+      </then>
+    </rule>
+    <rule name="Clear_Unit_Train_No" priority="0" active="true">
+      <if>
+        <exists>
+          <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="970c3ffe-de9e-4523-82b8-974a3c1eb686" />
+          <object>
+            <reference>
+              <xmldocumentref ref="xml_33" />
+            </reference>
+          </object>
+          <member>
+            <constant>
+              <string>/*[local-name()='File_of_Bills' and namespace-uri()='http://Lyo.BizTalk.BourqueRailBOL.Multi_BSD404']/*[local-name()='Bill_Item' and namespace-uri()='']/*[local-name()='BSD404' and namespace-uri()='']/*[local-name()='HR' and namespace-uri()='']/*[local-name()='unit_train_no' and namespace-uri()='']</string>
+            </constant>
+          </member>
+        </exists>
+      </if>
+      <then>
+        <function>
+          <xmldocumentmember xmldocumentref="xml_34" type="string" sideeffects="true">
+            <field>*[local-name()='unit_train_no' and namespace-uri()='']</field>
+            <fieldalias>unit_train_no</fieldalias>
+            <argument>
+              <constant>
+                <string />
+              </constant>
+            </argument>
+          </xmldocumentmember>
+        </function>
+      </then>
+    </rule>
+    <rule name="HZ_Dot_Notice_1" priority="0" active="true">
+      <if>
+        <and>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="860442f5-b931-4dc8-9dd9-236359a720c7" />
+                <datarowmember datarowref="db_31" column="FromCode" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <function>
+                <xmldocumentmember xmldocumentref="xml_38" type="string" sideeffects="false">
+                  <field>*[local-name()='comm_code' and namespace-uri()='']</field>
+                  <fieldalias>comm_code</fieldalias>
+                </xmldocumentmember>
+              </function>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="b59b3b33-a24d-40d8-acb5-2a175082eb61" />
+                <datarowmember datarowref="db_31" column="FromLookupTypeName" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>SAP-MATNR</string>
+              </constant>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="b00583a8-51de-4d46-87b7-f9557bf42195" />
+                <datarowmember datarowref="db_31" column="IsActive" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>Y</string>
+              </constant>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="adeb0ed9-a377-4b98-9fc6-9a076c5f8541" />
+                <datarowmember datarowref="db_31" column="ToLookupTypeName" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>BDS-DOT-NOTICE</string>
+              </constant>
+            </rhs>
+          </compare>
+        </and>
+      </if>
+      <then>
+        <function>
+          <xmldocumentmember xmldocumentref="xml_37" type="string" sideeffects="true">
+            <field>*[local-name()='dot113_notice' and namespace-uri()='']</field>
+            <fieldalias>dot113_notice</fieldalias>
+            <argument>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="7b8fad6d-81f2-4517-890a-f0ba21904946" />
+                <datarowmember datarowref="db_31" column="ToCode" type="string" sideeffects="false" />
+              </function>
+            </argument>
+          </xmldocumentmember>
+        </function>
+      </then>
+    </rule>
+    <rule name="OriginCityForPlantCode" priority="90" active="true">
+      <if>
+        <and>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="b59b3b33-a24d-40d8-acb5-2a175082eb61" />
+                <datarowmember datarowref="db_31" column="FromLookupTypeName" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>SAP-OriginCity</string>
+              </constant>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="b00583a8-51de-4d46-87b7-f9557bf42195" />
+                <datarowmember datarowref="db_31" column="IsActive" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>Y</string>
+              </constant>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="adeb0ed9-a377-4b98-9fc6-9a076c5f8541" />
+                <datarowmember datarowref="db_31" column="ToLookupTypeName" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>BDS-OriginCity</string>
+              </constant>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="860442f5-b931-4dc8-9dd9-236359a720c7" />
+                <datarowmember datarowref="db_31" column="FromCode" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <function>
+                <classmember member="Concat3Elements" sideeffects="true">
+                  <classref ref="RulesEngineHelper" />
+                  <argument>
+                    <function>
+                      <xmldocumentmember xmldocumentref="xml_34" type="string" sideeffects="false">
+                        <field>*[local-name()='origin_city' and namespace-uri()='']</field>
+                        <fieldalias>origin_city</fieldalias>
+                      </xmldocumentmember>
+                    </function>
+                  </argument>
+                  <argument>
+                    <constant>
+                      <string>-</string>
+                    </constant>
+                  </argument>
+                  <argument>
+                    <function>
+                      <xmldocumentmember xmldocumentref="xml_34" type="string" sideeffects="false">
+                        <field>*[local-name()='origin_code' and namespace-uri()='']</field>
+                        <fieldalias>origin_code</fieldalias>
+                      </xmldocumentmember>
+                    </function>
+                  </argument>
+                </classmember>
+              </function>
+            </rhs>
+          </compare>
+        </and>
+      </if>
+      <then>
+        <function>
+          <xmldocumentmember xmldocumentref="xml_34" type="string" sideeffects="true">
+            <field>*[local-name()='origin_city' and namespace-uri()='']</field>
+            <fieldalias>origin_city</fieldalias>
+            <argument>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="7b8fad6d-81f2-4517-890a-f0ba21904946" />
+                <datarowmember datarowref="db_31" column="ToCode" type="string" sideeffects="false" />
+              </function>
+            </argument>
+          </xmldocumentmember>
+        </function>
+      </then>
+    </rule>
+    <rule name="CH-ER-Plan" priority="50" active="true">
+      <if>
+        <and>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="860442f5-b931-4dc8-9dd9-236359a720c7" />
+                <datarowmember datarowref="db_31" column="FromCode" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <function>
+                <xmldocumentmember xmldocumentref="xml_32" type="string" sideeffects="false">
+                  <field>*[local-name()='hazard_class' and namespace-uri()='']</field>
+                  <fieldalias>hazard_class</fieldalias>
+                </xmldocumentmember>
+              </function>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="b59b3b33-a24d-40d8-acb5-2a175082eb61" />
+                <datarowmember datarowref="db_31" column="FromLookupTypeName" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>SAP-MATNR-PARTN</string>
+              </constant>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="b00583a8-51de-4d46-87b7-f9557bf42195" />
+                <datarowmember datarowref="db_31" column="IsActive" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>Y</string>
+              </constant>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="adeb0ed9-a377-4b98-9fc6-9a076c5f8541" />
+                <datarowmember datarowref="db_31" column="ToLookupTypeName" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>BDS-ER-PLAN</string>
+              </constant>
+            </rhs>
+          </compare>
+        </and>
+      </if>
+      <then>
+        <function>
+          <xmldocumentmember xmldocumentref="xml_32" type="string" sideeffects="true">
+            <field>*[local-name()='er_plan_no' and namespace-uri()='']</field>
+            <fieldalias>er_plan_no</fieldalias>
+            <argument>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="7b8fad6d-81f2-4517-890a-f0ba21904946" />
+                <datarowmember datarowref="db_31" column="ToCode" type="string" sideeffects="false" />
+              </function>
+            </argument>
+          </xmldocumentmember>
+        </function>
+      </then>
+    </rule>
+    <rule name="SetDestCity" priority="1" active="true">
+      <if>
+        <exists>
+          <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="970c3ffe-de9e-4523-82b8-974a3c1eb686" />
+          <object>
+            <reference>
+              <xmldocumentref ref="xml_33" />
+            </reference>
+          </object>
+          <member>
+            <constant>
+              <string>/*[local-name()='File_of_Bills' and namespace-uri()='http://Lyo.BizTalk.BourqueRailBOL.Multi_BSD404']/*[local-name()='Bill_Item' and namespace-uri()='']/*[local-name()='BSD404' and namespace-uri()='']/*[local-name()='HR' and namespace-uri()='']/*[local-name()='dest_city' and namespace-uri()='']</string>
+            </constant>
+          </member>
+        </exists>
+      </if>
+      <then>
+        <function>
+          <xmldocumentmember xmldocumentref="xml_34" type="string" sideeffects="true">
+            <field>*[local-name()='dest_city' and namespace-uri()='']</field>
+            <fieldalias>dest_city</fieldalias>
+            <argument>
+              <function>
+                <xmldocumentmember xmldocumentref="xml_35" type="string" sideeffects="false">
+                  <field>*[local-name()='city' and namespace-uri()='']</field>
+                  <fieldalias>city</fieldalias>
+                </xmldocumentmember>
+              </function>
+            </argument>
+          </xmldocumentmember>
+        </function>
+      </then>
+    </rule>
+    <rule name="Clear_Hazard_Class" priority="0" active="true">
+      <if>
+        <exists>
+          <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="970c3ffe-de9e-4523-82b8-974a3c1eb686" />
+          <object>
+            <reference>
+              <xmldocumentref ref="xml_33" />
+            </reference>
+          </object>
+          <member>
+            <constant>
+              <string>/*[local-name()='File_of_Bills' and namespace-uri()='http://Lyo.BizTalk.BourqueRailBOL.Multi_BSD404']/*[local-name()='Bill_Item' and namespace-uri()='']/*[local-name()='BSD404' and namespace-uri()='']/*[local-name()='CH' and namespace-uri()='']/*[local-name()='hazard_class' and namespace-uri()='']</string>
+            </constant>
+          </member>
+        </exists>
+      </if>
+      <then>
+        <function>
+          <xmldocumentmember xmldocumentref="xml_32" type="string" sideeffects="true">
+            <field>*[local-name()='hazard_class' and namespace-uri()='']</field>
+            <fieldalias>hazard_class</fieldalias>
+            <argument>
+              <constant>
+                <string />
+              </constant>
+            </argument>
+          </xmldocumentmember>
+        </function>
+      </then>
+    </rule>
+    <rule name="HZ_HAZMAT_Zone" priority="0" active="true">
+      <if>
+        <and>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="860442f5-b931-4dc8-9dd9-236359a720c7" />
+                <datarowmember datarowref="db_31" column="FromCode" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <function>
+                <xmldocumentmember xmldocumentref="xml_36" type="string" sideeffects="false">
+                  <field>*[local-name()='comm_code' and namespace-uri()='']</field>
+                  <fieldalias>comm_code</fieldalias>
+                </xmldocumentmember>
+              </function>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="b59b3b33-a24d-40d8-acb5-2a175082eb61" />
+                <datarowmember datarowref="db_31" column="FromLookupTypeName" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>SAP-MATNR</string>
+              </constant>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="b00583a8-51de-4d46-87b7-f9557bf42195" />
+                <datarowmember datarowref="db_31" column="IsActive" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>Y</string>
+              </constant>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="adeb0ed9-a377-4b98-9fc6-9a076c5f8541" />
+                <datarowmember datarowref="db_31" column="ToLookupTypeName" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>BDS-HAZMAT-ZONE</string>
+              </constant>
+            </rhs>
+          </compare>
+        </and>
+      </if>
+      <then>
+        <function>
+          <xmldocumentmember xmldocumentref="xml_37" type="string" sideeffects="true">
+            <field>*[local-name()='hazmat_zone' and namespace-uri()='']</field>
+            <fieldalias>hazmat_zone</fieldalias>
+            <argument>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="7b8fad6d-81f2-4517-890a-f0ba21904946" />
+                <datarowmember datarowref="db_31" column="ToCode" type="string" sideeffects="false" />
+              </function>
+            </argument>
+          </xmldocumentmember>
+        </function>
+      </then>
+    </rule>
+    <rule name="HZ_HAZMAT_Zone_1" priority="0" active="true">
+      <if>
+        <and>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="860442f5-b931-4dc8-9dd9-236359a720c7" />
+                <datarowmember datarowref="db_31" column="FromCode" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <function>
+                <xmldocumentmember xmldocumentref="xml_38" type="string" sideeffects="false">
+                  <field>*[local-name()='comm_code' and namespace-uri()='']</field>
+                  <fieldalias>comm_code</fieldalias>
+                </xmldocumentmember>
+              </function>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="b59b3b33-a24d-40d8-acb5-2a175082eb61" />
+                <datarowmember datarowref="db_31" column="FromLookupTypeName" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>SAP-MATNR</string>
+              </constant>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="b00583a8-51de-4d46-87b7-f9557bf42195" />
+                <datarowmember datarowref="db_31" column="IsActive" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>Y</string>
+              </constant>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="adeb0ed9-a377-4b98-9fc6-9a076c5f8541" />
+                <datarowmember datarowref="db_31" column="ToLookupTypeName" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>BDS-HAZMAT-ZONE</string>
+              </constant>
+            </rhs>
+          </compare>
+        </and>
+      </if>
+      <then>
+        <function>
+          <xmldocumentmember xmldocumentref="xml_37" type="string" sideeffects="true">
+            <field>*[local-name()='hazmat_zone' and namespace-uri()='']</field>
+            <fieldalias>hazmat_zone</fieldalias>
+            <argument>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="7b8fad6d-81f2-4517-890a-f0ba21904946" />
+                <datarowmember datarowref="db_31" column="ToCode" type="string" sideeffects="false" />
+              </function>
+            </argument>
+          </xmldocumentmember>
+        </function>
+      </then>
+    </rule>
+  </ruleset>
+</brl>

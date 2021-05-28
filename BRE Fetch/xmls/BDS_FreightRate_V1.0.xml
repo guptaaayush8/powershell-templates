@@ -1,0 +1,1233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<brl xmlns="http://schemas.microsoft.com/businessruleslanguage/2002">
+  <ruleset name="BDSFreightRate">
+    <version major="1" minor="0" description="" modifiedby="LYONDELL\a_ixbhavar" date="2017-05-05T10:26:30.2852452-05:00" />
+    <configuration />
+    <bindings>
+      <datarow ref="db_31" server="W11629985\LyoEaiIntegrationDb" dataset="LyoEaiIntegrationDb" table="tbl_XRef_Lookup_Details" instances="16" selectivity="1" isdataconnection="true" instance="0" />
+      <class ref="RulesEngineHelper" class="RulesEngineHelper" instance="0" instances="16" selectivity="1">
+        <assembly>Lyo.BizTalk.Services.RulesEngineHelper, Version=2.0.0.0, Culture=neutral, PublicKeyToken=e3c07478decacce4</assembly>
+        <!--C:\Windows\Microsoft.Net\assembly\GAC_MSIL\Lyo.BizTalk.Services.RulesEngineHelper\v4.0_2.0.0.0__e3c07478decacce4\Lyo.BizTalk.Services.RulesEngineHelper.dll-->
+        <namespace>Lyo.BizTalk.Services.RulesEngineHelper</namespace>
+      </class>
+    </bindings>
+    <rule name="Set Destination Location" priority="0" active="true">
+      <if>
+        <and>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="b59b3b33-a24d-40d8-acb5-2a175082eb61" />
+                <datarowmember datarowref="db_31" column="FromLookupTypeName" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>InboundTransportLocation</string>
+              </constant>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="adeb0ed9-a377-4b98-9fc6-9a076c5f8541" />
+                <datarowmember datarowref="db_31" column="ToLookupTypeName" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>Destination</string>
+              </constant>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="860442f5-b931-4dc8-9dd9-236359a720c7" />
+                <datarowmember datarowref="db_31" column="FromCode" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <function>
+                <classmember member="GetDerivedFact" sideeffects="true">
+                  <classref ref="RulesEngineHelper" />
+                  <argument>
+                    <constant>
+                      <string>Destination</string>
+                    </constant>
+                  </argument>
+                </classmember>
+              </function>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="b00583a8-51de-4d46-87b7-f9557bf42195" />
+                <datarowmember datarowref="db_31" column="IsActive" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>Y</string>
+              </constant>
+            </rhs>
+          </compare>
+        </and>
+      </if>
+      <then>
+        <function>
+          <classmember member="SetDerivedFact" sideeffects="true">
+            <classref ref="RulesEngineHelper" />
+            <argument>
+              <constant>
+                <string>Destination</string>
+              </constant>
+            </argument>
+            <argument>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="7b8fad6d-81f2-4517-890a-f0ba21904946" />
+                <datarowmember datarowref="db_31" column="ToCode" type="string" sideeffects="false" />
+              </function>
+            </argument>
+          </classmember>
+        </function>
+      </then>
+    </rule>
+    <rule name="Set FTP Password" priority="0" active="true">
+      <if>
+        <and>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="b59b3b33-a24d-40d8-acb5-2a175082eb61" />
+                <datarowmember datarowref="db_31" column="FromLookupTypeName" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>InboundTransportLocation</string>
+              </constant>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="adeb0ed9-a377-4b98-9fc6-9a076c5f8541" />
+                <datarowmember datarowref="db_31" column="ToLookupTypeName" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>FTPPassword</string>
+              </constant>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="860442f5-b931-4dc8-9dd9-236359a720c7" />
+                <datarowmember datarowref="db_31" column="FromCode" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <function>
+                <classmember member="GetDerivedFact" sideeffects="true">
+                  <classref ref="RulesEngineHelper" />
+                  <argument>
+                    <constant>
+                      <string>FTPPassword</string>
+                    </constant>
+                  </argument>
+                </classmember>
+              </function>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="b00583a8-51de-4d46-87b7-f9557bf42195" />
+                <datarowmember datarowref="db_31" column="IsActive" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>Y</string>
+              </constant>
+            </rhs>
+          </compare>
+        </and>
+      </if>
+      <then>
+        <function>
+          <classmember member="SetDerivedFact" sideeffects="true">
+            <classref ref="RulesEngineHelper" />
+            <argument>
+              <constant>
+                <string>FTPPassword</string>
+              </constant>
+            </argument>
+            <argument>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="7b8fad6d-81f2-4517-890a-f0ba21904946" />
+                <datarowmember datarowref="db_31" column="ToCode" type="string" sideeffects="false" />
+              </function>
+            </argument>
+          </classmember>
+        </function>
+      </then>
+    </rule>
+    <rule name="Set File Copy Mode" priority="0" active="true">
+      <if>
+        <and>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="b59b3b33-a24d-40d8-acb5-2a175082eb61" />
+                <datarowmember datarowref="db_31" column="FromLookupTypeName" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>InboundTransportLocation</string>
+              </constant>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="adeb0ed9-a377-4b98-9fc6-9a076c5f8541" />
+                <datarowmember datarowref="db_31" column="ToLookupTypeName" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>FileCopyMode</string>
+              </constant>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="860442f5-b931-4dc8-9dd9-236359a720c7" />
+                <datarowmember datarowref="db_31" column="FromCode" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <function>
+                <classmember member="GetDerivedFact" sideeffects="true">
+                  <classref ref="RulesEngineHelper" />
+                  <argument>
+                    <constant>
+                      <string>FileCopyMode</string>
+                    </constant>
+                  </argument>
+                </classmember>
+              </function>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="b00583a8-51de-4d46-87b7-f9557bf42195" />
+                <datarowmember datarowref="db_31" column="IsActive" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>Y</string>
+              </constant>
+            </rhs>
+          </compare>
+        </and>
+      </if>
+      <then>
+        <function>
+          <classmember member="SetDerivedFact" sideeffects="true">
+            <classref ref="RulesEngineHelper" />
+            <argument>
+              <constant>
+                <string>FileCopyMode</string>
+              </constant>
+            </argument>
+            <argument>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="7b8fad6d-81f2-4517-890a-f0ba21904946" />
+                <datarowmember datarowref="db_31" column="ToCode" type="string" sideeffects="false" />
+              </function>
+            </argument>
+          </classmember>
+        </function>
+      </then>
+    </rule>
+    <rule name="Set RetryInterval" priority="0" active="true">
+      <if>
+        <and>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="b59b3b33-a24d-40d8-acb5-2a175082eb61" />
+                <datarowmember datarowref="db_31" column="FromLookupTypeName" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>InboundTransportLocation</string>
+              </constant>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="adeb0ed9-a377-4b98-9fc6-9a076c5f8541" />
+                <datarowmember datarowref="db_31" column="ToLookupTypeName" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>RetryInterval</string>
+              </constant>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="860442f5-b931-4dc8-9dd9-236359a720c7" />
+                <datarowmember datarowref="db_31" column="FromCode" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <function>
+                <classmember member="GetDerivedFact" sideeffects="true">
+                  <classref ref="RulesEngineHelper" />
+                  <argument>
+                    <constant>
+                      <string>RetryInterval</string>
+                    </constant>
+                  </argument>
+                </classmember>
+              </function>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="b00583a8-51de-4d46-87b7-f9557bf42195" />
+                <datarowmember datarowref="db_31" column="IsActive" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>Y</string>
+              </constant>
+            </rhs>
+          </compare>
+        </and>
+      </if>
+      <then>
+        <function>
+          <classmember member="SetDerivedFact" sideeffects="true">
+            <classref ref="RulesEngineHelper" />
+            <argument>
+              <constant>
+                <string>RetryInterval</string>
+              </constant>
+            </argument>
+            <argument>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="7b8fad6d-81f2-4517-890a-f0ba21904946" />
+                <datarowmember datarowref="db_31" column="ToCode" type="string" sideeffects="false" />
+              </function>
+            </argument>
+          </classmember>
+        </function>
+      </then>
+    </rule>
+    <rule name="Set File Extension" priority="0" active="true">
+      <if>
+        <and>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="b59b3b33-a24d-40d8-acb5-2a175082eb61" />
+                <datarowmember datarowref="db_31" column="FromLookupTypeName" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>InboundTransportLocation</string>
+              </constant>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="adeb0ed9-a377-4b98-9fc6-9a076c5f8541" />
+                <datarowmember datarowref="db_31" column="ToLookupTypeName" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>FileExtension</string>
+              </constant>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="860442f5-b931-4dc8-9dd9-236359a720c7" />
+                <datarowmember datarowref="db_31" column="FromCode" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <function>
+                <classmember member="GetDerivedFact" sideeffects="true">
+                  <classref ref="RulesEngineHelper" />
+                  <argument>
+                    <constant>
+                      <string>FileExtension</string>
+                    </constant>
+                  </argument>
+                </classmember>
+              </function>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="b00583a8-51de-4d46-87b7-f9557bf42195" />
+                <datarowmember datarowref="db_31" column="IsActive" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>Y</string>
+              </constant>
+            </rhs>
+          </compare>
+        </and>
+      </if>
+      <then>
+        <function>
+          <classmember member="SetDerivedFact" sideeffects="true">
+            <classref ref="RulesEngineHelper" />
+            <argument>
+              <constant>
+                <string>FileExtension</string>
+              </constant>
+            </argument>
+            <argument>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="7b8fad6d-81f2-4517-890a-f0ba21904946" />
+                <datarowmember datarowref="db_31" column="ToCode" type="string" sideeffects="false" />
+              </function>
+            </argument>
+          </classmember>
+        </function>
+      </then>
+    </rule>
+    <rule name="Set File Name" priority="0" active="true">
+      <if>
+        <and>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="b59b3b33-a24d-40d8-acb5-2a175082eb61" />
+                <datarowmember datarowref="db_31" column="FromLookupTypeName" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>InboundTransportLocation</string>
+              </constant>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="adeb0ed9-a377-4b98-9fc6-9a076c5f8541" />
+                <datarowmember datarowref="db_31" column="ToLookupTypeName" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>File Name</string>
+              </constant>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="860442f5-b931-4dc8-9dd9-236359a720c7" />
+                <datarowmember datarowref="db_31" column="FromCode" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <function>
+                <classmember member="GetDerivedFact" sideeffects="true">
+                  <classref ref="RulesEngineHelper" />
+                  <argument>
+                    <constant>
+                      <string>FileName</string>
+                    </constant>
+                  </argument>
+                </classmember>
+              </function>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="b00583a8-51de-4d46-87b7-f9557bf42195" />
+                <datarowmember datarowref="db_31" column="IsActive" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>Y</string>
+              </constant>
+            </rhs>
+          </compare>
+        </and>
+      </if>
+      <then>
+        <function>
+          <classmember member="SetDerivedFact" sideeffects="true">
+            <classref ref="RulesEngineHelper" />
+            <argument>
+              <constant>
+                <string>FileName</string>
+              </constant>
+            </argument>
+            <argument>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="7b8fad6d-81f2-4517-890a-f0ba21904946" />
+                <datarowmember datarowref="db_31" column="ToCode" type="string" sideeffects="false" />
+              </function>
+            </argument>
+          </classmember>
+        </function>
+      </then>
+    </rule>
+    <rule name="Set Path" priority="0" active="true">
+      <if>
+        <and>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="b59b3b33-a24d-40d8-acb5-2a175082eb61" />
+                <datarowmember datarowref="db_31" column="FromLookupTypeName" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>InboundTransportLocation</string>
+              </constant>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="adeb0ed9-a377-4b98-9fc6-9a076c5f8541" />
+                <datarowmember datarowref="db_31" column="ToLookupTypeName" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>Path</string>
+              </constant>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="860442f5-b931-4dc8-9dd9-236359a720c7" />
+                <datarowmember datarowref="db_31" column="FromCode" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <function>
+                <classmember member="GetDerivedFact" sideeffects="true">
+                  <classref ref="RulesEngineHelper" />
+                  <argument>
+                    <constant>
+                      <string>Path</string>
+                    </constant>
+                  </argument>
+                </classmember>
+              </function>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="b00583a8-51de-4d46-87b7-f9557bf42195" />
+                <datarowmember datarowref="db_31" column="IsActive" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>Y</string>
+              </constant>
+            </rhs>
+          </compare>
+        </and>
+      </if>
+      <then>
+        <function>
+          <classmember member="SetDerivedFact" sideeffects="true">
+            <classref ref="RulesEngineHelper" />
+            <argument>
+              <constant>
+                <string>Path</string>
+              </constant>
+            </argument>
+            <argument>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="7b8fad6d-81f2-4517-890a-f0ba21904946" />
+                <datarowmember datarowref="db_31" column="ToCode" type="string" sideeffects="false" />
+              </function>
+            </argument>
+          </classmember>
+        </function>
+      </then>
+    </rule>
+    <rule name="Set AddDateTimeStamp" priority="0" active="true">
+      <if>
+        <and>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="b59b3b33-a24d-40d8-acb5-2a175082eb61" />
+                <datarowmember datarowref="db_31" column="FromLookupTypeName" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>InboundTransportLocation</string>
+              </constant>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="adeb0ed9-a377-4b98-9fc6-9a076c5f8541" />
+                <datarowmember datarowref="db_31" column="ToLookupTypeName" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>AddTimestamp</string>
+              </constant>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="860442f5-b931-4dc8-9dd9-236359a720c7" />
+                <datarowmember datarowref="db_31" column="FromCode" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <function>
+                <classmember member="GetDerivedFact" sideeffects="true">
+                  <classref ref="RulesEngineHelper" />
+                  <argument>
+                    <constant>
+                      <string>AddTimestamp</string>
+                    </constant>
+                  </argument>
+                </classmember>
+              </function>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="b00583a8-51de-4d46-87b7-f9557bf42195" />
+                <datarowmember datarowref="db_31" column="IsActive" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>Y</string>
+              </constant>
+            </rhs>
+          </compare>
+        </and>
+      </if>
+      <then>
+        <function>
+          <classmember member="SetDerivedFact" sideeffects="true">
+            <classref ref="RulesEngineHelper" />
+            <argument>
+              <constant>
+                <string>AddTimestamp</string>
+              </constant>
+            </argument>
+            <argument>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="7b8fad6d-81f2-4517-890a-f0ba21904946" />
+                <datarowmember datarowref="db_31" column="ToCode" type="string" sideeffects="false" />
+              </function>
+            </argument>
+          </classmember>
+        </function>
+      </then>
+    </rule>
+    <rule name="Set TPID" priority="0" active="true">
+      <if>
+        <and>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="b59b3b33-a24d-40d8-acb5-2a175082eb61" />
+                <datarowmember datarowref="db_31" column="FromLookupTypeName" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>InboundTransportLocation</string>
+              </constant>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="adeb0ed9-a377-4b98-9fc6-9a076c5f8541" />
+                <datarowmember datarowref="db_31" column="ToLookupTypeName" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>TPID</string>
+              </constant>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="860442f5-b931-4dc8-9dd9-236359a720c7" />
+                <datarowmember datarowref="db_31" column="FromCode" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <function>
+                <classmember member="GetDerivedFact" sideeffects="true">
+                  <classref ref="RulesEngineHelper" />
+                  <argument>
+                    <constant>
+                      <string>TPID</string>
+                    </constant>
+                  </argument>
+                </classmember>
+              </function>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="b00583a8-51de-4d46-87b7-f9557bf42195" />
+                <datarowmember datarowref="db_31" column="IsActive" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>Y</string>
+              </constant>
+            </rhs>
+          </compare>
+        </and>
+      </if>
+      <then>
+        <function>
+          <classmember member="SetDerivedFact" sideeffects="true">
+            <classref ref="RulesEngineHelper" />
+            <argument>
+              <constant>
+                <string>TPID</string>
+              </constant>
+            </argument>
+            <argument>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="7b8fad6d-81f2-4517-890a-f0ba21904946" />
+                <datarowmember datarowref="db_31" column="ToCode" type="string" sideeffects="false" />
+              </function>
+            </argument>
+          </classmember>
+        </function>
+      </then>
+    </rule>
+    <rule name="Set SAP Event ID" priority="0" active="true">
+      <if>
+        <and>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="b59b3b33-a24d-40d8-acb5-2a175082eb61" />
+                <datarowmember datarowref="db_31" column="FromLookupTypeName" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>InboundTransportLocation</string>
+              </constant>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="adeb0ed9-a377-4b98-9fc6-9a076c5f8541" />
+                <datarowmember datarowref="db_31" column="ToLookupTypeName" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>EventID</string>
+              </constant>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="860442f5-b931-4dc8-9dd9-236359a720c7" />
+                <datarowmember datarowref="db_31" column="FromCode" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <function>
+                <classmember member="GetDerivedFact" sideeffects="true">
+                  <classref ref="RulesEngineHelper" />
+                  <argument>
+                    <constant>
+                      <string>EventID</string>
+                    </constant>
+                  </argument>
+                </classmember>
+              </function>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="b00583a8-51de-4d46-87b7-f9557bf42195" />
+                <datarowmember datarowref="db_31" column="IsActive" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>Y</string>
+              </constant>
+            </rhs>
+          </compare>
+        </and>
+      </if>
+      <then>
+        <function>
+          <classmember member="SetDerivedFact" sideeffects="true">
+            <classref ref="RulesEngineHelper" />
+            <argument>
+              <constant>
+                <string>EventID</string>
+              </constant>
+            </argument>
+            <argument>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="7b8fad6d-81f2-4517-890a-f0ba21904946" />
+                <datarowmember datarowref="db_31" column="ToCode" type="string" sideeffects="false" />
+              </function>
+            </argument>
+          </classmember>
+        </function>
+      </then>
+    </rule>
+    <rule name="Set FTP User Name" priority="0" active="true">
+      <if>
+        <and>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="b59b3b33-a24d-40d8-acb5-2a175082eb61" />
+                <datarowmember datarowref="db_31" column="FromLookupTypeName" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>InboundTransportLocation</string>
+              </constant>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="adeb0ed9-a377-4b98-9fc6-9a076c5f8541" />
+                <datarowmember datarowref="db_31" column="ToLookupTypeName" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>FTPUserName</string>
+              </constant>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="860442f5-b931-4dc8-9dd9-236359a720c7" />
+                <datarowmember datarowref="db_31" column="FromCode" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <function>
+                <classmember member="GetDerivedFact" sideeffects="true">
+                  <classref ref="RulesEngineHelper" />
+                  <argument>
+                    <constant>
+                      <string>FTPUserName</string>
+                    </constant>
+                  </argument>
+                </classmember>
+              </function>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="b00583a8-51de-4d46-87b7-f9557bf42195" />
+                <datarowmember datarowref="db_31" column="IsActive" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>Y</string>
+              </constant>
+            </rhs>
+          </compare>
+        </and>
+      </if>
+      <then>
+        <function>
+          <classmember member="SetDerivedFact" sideeffects="true">
+            <classref ref="RulesEngineHelper" />
+            <argument>
+              <constant>
+                <string>FTPUserName</string>
+              </constant>
+            </argument>
+            <argument>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="7b8fad6d-81f2-4517-890a-f0ba21904946" />
+                <datarowmember datarowref="db_31" column="ToCode" type="string" sideeffects="false" />
+              </function>
+            </argument>
+          </classmember>
+        </function>
+      </then>
+    </rule>
+    <rule name="Set RetryCount" priority="0" active="true">
+      <if>
+        <and>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="b59b3b33-a24d-40d8-acb5-2a175082eb61" />
+                <datarowmember datarowref="db_31" column="FromLookupTypeName" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>InboundTransportLocation</string>
+              </constant>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="adeb0ed9-a377-4b98-9fc6-9a076c5f8541" />
+                <datarowmember datarowref="db_31" column="ToLookupTypeName" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>RetryCount</string>
+              </constant>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="860442f5-b931-4dc8-9dd9-236359a720c7" />
+                <datarowmember datarowref="db_31" column="FromCode" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <function>
+                <classmember member="GetDerivedFact" sideeffects="true">
+                  <classref ref="RulesEngineHelper" />
+                  <argument>
+                    <constant>
+                      <string>RetryCount</string>
+                    </constant>
+                  </argument>
+                </classmember>
+              </function>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="b00583a8-51de-4d46-87b7-f9557bf42195" />
+                <datarowmember datarowref="db_31" column="IsActive" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>Y</string>
+              </constant>
+            </rhs>
+          </compare>
+        </and>
+      </if>
+      <then>
+        <function>
+          <classmember member="SetDerivedFact" sideeffects="true">
+            <classref ref="RulesEngineHelper" />
+            <argument>
+              <constant>
+                <string>RetryCount</string>
+              </constant>
+            </argument>
+            <argument>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="7b8fad6d-81f2-4517-890a-f0ba21904946" />
+                <datarowmember datarowref="db_31" column="ToCode" type="string" sideeffects="false" />
+              </function>
+            </argument>
+          </classmember>
+        </function>
+      </then>
+    </rule>
+    <rule name="Set FTP URI" priority="0" active="true">
+      <if>
+        <and>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="b59b3b33-a24d-40d8-acb5-2a175082eb61" />
+                <datarowmember datarowref="db_31" column="FromLookupTypeName" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>InboundTransportLocation</string>
+              </constant>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="adeb0ed9-a377-4b98-9fc6-9a076c5f8541" />
+                <datarowmember datarowref="db_31" column="ToLookupTypeName" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>FTPURI</string>
+              </constant>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="860442f5-b931-4dc8-9dd9-236359a720c7" />
+                <datarowmember datarowref="db_31" column="FromCode" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <function>
+                <classmember member="GetDerivedFact" sideeffects="true">
+                  <classref ref="RulesEngineHelper" />
+                  <argument>
+                    <constant>
+                      <string>FTPURI</string>
+                    </constant>
+                  </argument>
+                </classmember>
+              </function>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="b00583a8-51de-4d46-87b7-f9557bf42195" />
+                <datarowmember datarowref="db_31" column="IsActive" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>Y</string>
+              </constant>
+            </rhs>
+          </compare>
+        </and>
+      </if>
+      <then>
+        <function>
+          <classmember member="SetDerivedFact" sideeffects="true">
+            <classref ref="RulesEngineHelper" />
+            <argument>
+              <constant>
+                <string>FTPURI</string>
+              </constant>
+            </argument>
+            <argument>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="7b8fad6d-81f2-4517-890a-f0ba21904946" />
+                <datarowmember datarowref="db_31" column="ToCode" type="string" sideeffects="false" />
+              </function>
+            </argument>
+          </classmember>
+        </function>
+      </then>
+    </rule>
+    <rule name="Set Direction" priority="0" active="true">
+      <if>
+        <and>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="b59b3b33-a24d-40d8-acb5-2a175082eb61" />
+                <datarowmember datarowref="db_31" column="FromLookupTypeName" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>InboundTransportLocation</string>
+              </constant>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="adeb0ed9-a377-4b98-9fc6-9a076c5f8541" />
+                <datarowmember datarowref="db_31" column="ToLookupTypeName" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>Direction</string>
+              </constant>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="860442f5-b931-4dc8-9dd9-236359a720c7" />
+                <datarowmember datarowref="db_31" column="FromCode" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <function>
+                <classmember member="GetDerivedFact" sideeffects="true">
+                  <classref ref="RulesEngineHelper" />
+                  <argument>
+                    <constant>
+                      <string>Direction</string>
+                    </constant>
+                  </argument>
+                </classmember>
+              </function>
+            </rhs>
+          </compare>
+          <compare operator="equal">
+            <vocabularylink uri="3f0e9bcc-6212-4e6a-853c-e517f157a626" element="05703dd9-1111-40b8-890d-ad7bfc45a925" />
+            <lhs>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="b00583a8-51de-4d46-87b7-f9557bf42195" />
+                <datarowmember datarowref="db_31" column="IsActive" type="string" sideeffects="false" />
+              </function>
+            </lhs>
+            <rhs>
+              <constant>
+                <string>Y</string>
+              </constant>
+            </rhs>
+          </compare>
+        </and>
+      </if>
+      <then>
+        <function>
+          <classmember member="SetDerivedFact" sideeffects="true">
+            <classref ref="RulesEngineHelper" />
+            <argument>
+              <constant>
+                <string>Direction</string>
+              </constant>
+            </argument>
+            <argument>
+              <function>
+                <vocabularylink uri="2a8003fd-9009-4ac9-a7fc-f7b6fc9f74fc" element="7b8fad6d-81f2-4517-890a-f0ba21904946" />
+                <datarowmember datarowref="db_31" column="ToCode" type="string" sideeffects="false" />
+              </function>
+            </argument>
+          </classmember>
+        </function>
+      </then>
+    </rule>
+  </ruleset>
+</brl>
