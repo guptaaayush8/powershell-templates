@@ -1,4 +1,4 @@
-﻿$Files = (dir .\xmls -Filter "*.xml").FullName
+﻿$Files = (dir $pwd\xmls -Filter "*.xml").FullName
 $Data = @()
 foreach($File in $Files){
 $content = [xml](gc $File) 
@@ -59,6 +59,9 @@ foreach($Rule in $Rules){
     $Data+= $Row
 }
 }  
+
+$Data|Export-Csv -Path $pwd\Output\CSV.CSV -Append -NoTypeInformation
+
 
 
 
