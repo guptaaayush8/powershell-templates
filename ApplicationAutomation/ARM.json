@@ -211,7 +211,6 @@
                         "body": "@items('For_each')",
                         "function": {
                           "id": "[variables('varFuncResIdErrorParser')]"
-                          //"id": "/subscriptions/bf5c2e74-56c8-49ac-adef-0c9f27dfeca9/resourceGroups/rg-integration-common-dev/providers/Microsoft.Web/sites/azfun-integration-lyb/functions/ErrorParser"
                         }
                       },
                       "runAfter": {},

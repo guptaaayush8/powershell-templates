@@ -1,6 +1,6 @@
 {
-  "file":[
-    "parameters":[
+  "file":{
+    "parameters":{
         "folder": {
           "type": "string",
           "defaultValue": "",
@@ -11,7 +11,7 @@
         "pollingInterval": {
             "type": "int"
           }
-      ],
+      },
     "triggers": {
       "When_files_are_added_or_modified_(properties_only)":{
               "type": "ApiConnection",
@@ -35,9 +35,9 @@
               "splitOn": "@triggerBody()"
             }
     }
-    ],
-  "sftp":[
-    "parameters":[
+    },
+  "sftp":{
+    "parameters":{
           "folder": {
           "type": "string",
           "defaultValue": "",
@@ -48,7 +48,7 @@
           "pollingInterval": {
             "type": "int"
           }
-      ],
+      },
     "triggers": {
       "When_files_are_added_or_modified_(properties_only)":{
               "type": "ApiConnection",
@@ -72,5 +72,5 @@
               "splitOn": "@triggerBody()"
             }
     }
-    ]
+  }
 }

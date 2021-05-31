@@ -1,0 +1,54 @@
+{
+  "parameters": {
+  "logicAppLocation": {
+  "type": "string",
+  "defaultValue": "[resourceGroup().location]"
+  },
+  "isefilesystemRootFolder": {
+        "type": "string",
+        "metadata": {
+          "description": "The root folder of the file share eg:\\\\Machine-Name\\SharedFolderName"
+        },
+        "defaultValue": ""
+      },
+  "kvisefilesystemUserName": {
+        "type": "string"
+      },
+  "kvisefilesystemPassword": {
+        "type": "securestring"
+      }
+  },
+  "variables": {
+  "varfsConn": "[concat('conn-', 'fs-', parameters('environment'))]"
+  
+  },
+  "Resources": {
+    "properties.parameters.connections.value":{
+      "isefilesystem": {
+                "id": "[concat(variables('varISEId'), '/managedApis/isefilesystem')]",
+                "connectionId": "[resourceId('Microsoft.Web/connections', variables('varfsConn'))]",
+                "connectionName": "[variables('varfsConn')]"
+              }
+    },
+    "dependsOn":{
+      "[resourceId('Microsoft.Web/connections', variables('varfsConn'))]"
+    },
+    "connection":{
+        "type": "MICROSOFT.WEB/CONNECTIONS",
+        "apiVersion": "2018-07-01-preview",
+        "name": "[variables('varfsConn')]",
+        "location": "[parameters('logicAppLocation')]",
+        "properties": {
+          "api": {
+            "id": "[concat(variables('varISEId'), '/managedApis/isefilesystem')]"
+          },
+          "displayName": "[variables('varfsConn')]",
+          "parameterValues": {
+            "rootFolder": "[parameters('isefilesystemRootFolder')]",
+            "userName": "[parameters('kvisefilesystemUserName')]",
+            "password": "[parameters('kvisefilesystemPassword')]"
+          }
+        }
+    }
+  }
+}
