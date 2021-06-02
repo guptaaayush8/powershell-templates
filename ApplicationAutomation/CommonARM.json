@@ -1,5 +1,5 @@
 {
-  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
     "logicAppName": {
@@ -119,11 +119,11 @@
     "vardiagnosticSettingName": "[concat('diags-',  parameters('logicAppName'))]",
     "varWSParams": "[split(parameters('logAnalyticsWS'),'/')]",
     "varworkspaceId": "[resourceId(variables('varWSParams')[0],'Microsoft.OperationalInsights/workspaces/', variables('varWSParams')[1])]",
+    "varsbConnectionName": "[concat('conn-', 'sb-', variables('varSbParams')[1])]",
     "varNestedLogicAppParamsBlob": "[split(parameters('nestedLogicApp'),'/')]",
     "varNestedLogicAppResIdBlob": "[resourceId(variables('varNestedLogicAppParamsBlob')[0] ,'Microsoft.Logic/workflows', variables('varNestedLogicAppParamsBlob')[1])]",
     "varFunctionParams": "[split(parameters('functionApp'),'/')]",
     "varFuncResIdErrorParser": "[resourceId(variables('varFunctionParams')[0] ,'Microsoft.Web/sites/functions', variables('varFunctionParams')[1], 'ErrorParser')]"
-
   },
   "resources": [
     {
@@ -185,17 +185,189 @@
         },
         "definition": {
           "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
-          "actions": {},
+          "actions": {
+            "Initialize_TrackingId_variable": {
+              "type": "InitializeVariable",
+              "inputs": {
+                "variables": [
+                  {
+                    "name": "var_trackingId",
+                    "type": "string",
+                    "value": "@{guid()}"
+                  }
+                ]
+              },
+              "runAfter": {
+              }
+            },
+            "Initialize_Track_Object_Variable": {
+              "type": "InitializeVariable",
+              "inputs": {
+                "variables": [
+                  {
+                    "name": "var_trackObject",
+                    "type": "object",
+                    "value": {
+                      "BusinessDocID": "@replace(triggerBody()?['Name'],concat('.',last(split(triggerBody()?['Name'],'.'))),'')",
+                      "Direction": "Outbound",
+                      "FunctionalGroup": "Manufacturing",
+                      "LyoCompanyCode": "",
+                      "MessageType": "Binary",
+                      "SourceFileName": "@triggerBody()?['Name']",
+                      "SourceFilePath": "@triggerBody()?['Path']",
+                      "SvcName": "",
+                      "SvcNameType": "Interface",
+                      "SvcStatus": "Open",
+                      "SvcStart": "@utcNow('yyyy-MM-ddTHH:mm:ss')",
+                      "TechnicalDocID": "@triggerBody()?['Name']",
+                      "TradingPartnerID": "Toups",
+                      "LastUpdatedBy": "BizTalk",
+                      "LastUpdatedDate": "@utcNow('yyyy-MM-ddTHH:mm:ss')"
+                    }
+                  }
+                ]
+              },
+              "runAfter": {
+                "Initialize_TrackingId_variable": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "Initialize_variable_ErrorMessage": {
+              "type": "InitializeVariable",
+              "inputs": {
+                "variables": [
+                  {
+                    "name": "var_ErrorMessage",
+                    "type": "string"
+                  }
+                ]
+              },
+              "runAfter": {
+                "Initialize_Track_Object_Variable": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "Scope_Main": {
+              "type": "Scope",
+              "actions": {
+
+              },
+              "runAfter": {
+                "Initialize_variable_ErrorMessage": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "Handle_Exception": {
+              "type": "Scope",
+              "actions": {
+                "Filter_Handle_Exception": {
+                  "type": "Query",
+                  "inputs": {
+                    "from": "@result('Scope_Main')",
+                    "where": "@equals(item()['status'], 'Failed')"
+                  },
+                  "runAfter": {
+                  }
+                },
+                "For_each_Handle_Exception": {
+                  "type": "Foreach",
+                  "foreach": "@body('Filter_Handle_Exception')",
+                  "actions": {
+                    "ErrorParser_Handle_Exception": {
+                      "type": "Function",
+                      "inputs": {
+                        "body": "@items('For_each_Handle_Exception')",
+                        "function": {
+                          "id": "[variables('varFuncResIdErrorParser')]"
+                        }
+                      },
+                      "runAfter": {
+                      }
+                    },
+                    "Send__Handle_Exception_Message_To_Audit_Queue": {
+                      "type": "ApiConnection",
+                      "inputs": {
+                        "host": {
+                          "connection": {
+                            "name": "@parameters('$connections')['servicebus']['connectionId']"
+                          }
+                        },
+                        "method": "post",
+                        "body": {
+                          "ContentData": "@{base64(concat('{','\n','    \"trackType\": \"ERROR\",','\n','    \"runId\": \"',workflow()['run']['name'],'\",','\n','    \"error\": {','\n','        \"code\": \"',body('ErrorParser_Handle_Exception')?['code'],'\",','\n','        \"message\": \"',body('ErrorParser_Handle_Exception')?['message'],'\"','\n','    }','\n','}'))}",
+                          "ContentType": "application/json"
+                        },
+                        "path": "/@{encodeURIComponent(encodeURIComponent('sbq-snd-audit-all'))}/messages",
+                        "queries": {
+                          "systemProperties": "Run Details"
+                        }
+                      },
+                      "runAfter": {
+                        "ErrorParser_Handle_Exception": [
+                          "Succeeded"
+                        ]
+                      }
+                    }
+                  },
+                  "runAfter": {
+                    "Filter_Handle_Exception": [
+                      "Succeeded"
+                    ]
+                  }
+                }
+              },
+              "runAfter": {
+                "Switch_On_Flag_Completed": [
+                  "Failed"
+                ]
+              }
+            },
+            "Send_Audit_Message_To_Queue": {
+              "type": "ApiConnection",
+              "inputs": {
+                "host": {
+                  "connection": {
+                    "name": "@parameters('$connections')['servicebus']['connectionId']"
+                  }
+                },
+                "method": "post",
+                "body": [
+                  {
+                    "ContentData": "@{base64(concat('{','\n','\"trackType\":\"RUN\",','\n','\"run\":{','\n','\"runid\":',workflow()['run']['name'],',','\n','\"name\":',workflow()['name'],',','\n','\"correlationId\":',string(variables('var_trackingId')),'\n','}','\n','}'))}",
+                    "ContentType": "application/json"
+                  },
+                  {
+                    "ContentData": "@{base64(concat('{','\n','\"trackType\":\"PROPERTY\",','\n','\"runid\":\"',workflow()['run']['name'],'\",','\n','\"properties\":',variables('var_trackObject'),'\n','}'))}",
+                    "ContentType": "application/json"
+                  }
+                ],
+                "path": "/@{encodeURIComponent(encodeURIComponent('sbq-snd-audit-all'))}/messages/batch",
+                "queries": {
+                  "systemProperties": "Run Details"
+                }
+              },
+              "runAfter": {
+                "Initialize_variable_ErrorMessage": [
+                  "Succeeded"
+                ]
+              }
+            }
+          },
           "parameters": {
             "$connections": {
-              "defaultValue": {},
+              "defaultValue": {
+              },
               "type": "Object"
             }
           },
           "triggers": {
           },
           "contentVersion": "1.0.0.0",
-          "outputs": {}
+          "outputs": {
+          }
         },
         "parameters": {
           "$connections": {
@@ -213,7 +385,7 @@
         "[resourceId('Microsoft.Web/connections', variables('varsbConnectionName'))]"
       ]
     },
-  {
+    {
       "type": "MICROSOFT.WEB/CONNECTIONS",
       "apiVersion": "2018-07-01-preview",
       "name": "[variables('varsbConnectionName')]",
@@ -229,5 +401,6 @@
       }
     }
   ],
-  "outputs": {}
+  "outputs": {
+  }
 }
