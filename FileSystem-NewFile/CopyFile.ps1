@@ -39,7 +39,7 @@ $failedFiles = @()
 foreach($File in $FileBrowser.FileNames){
     $FileName = (gi $File).Name
     try{
-        Copy-Item -Path $File -Destination $OutputFolder
+        Copy-Item -Path $File -Destination $OutputFolder -Force
         gi $OutputFolder\$Filename | where{$_.LastWriteTime = Get-Date}
         $successFiles += $FileName
     }

@@ -1,6 +1,7 @@
 ﻿
 $Base = gc .\CommonARM.json|ConvertFrom-Json
-$Additive = gc .\resources\file.json|ConvertFrom-Json
+$Additive = gc .\resources\sftp.json|ConvertFrom-Json
+
 function CombineParameters{
     param(
         $Base,
@@ -38,10 +39,6 @@ function CombineOutputs{
     }}catch{}
     return $Base.outputs|select -Unique
 }
-
-
-
-
 function CombineResources{
     param($Base,$Additive)
 
@@ -70,8 +67,6 @@ function CombineResources{
     }
     return $ResourceObject
 }
-
-
 function CombineObject{
     param(
         $BaseObject,$AddObject
@@ -80,15 +75,17 @@ function CombineObject{
     Write-Verbose ($AddObject|Out-String)
     $BaseMembers = ($BaseObject|gm -MemberType NoteProperty).Name
     $AddMembers = ($AddObject|gm -MemberType NoteProperty).Name
-   # $Obj = New-Object psobject
     foreach($Member in $AddMembers){
         if($BaseMembers -notcontains $Member){
             $BaseObject|Add-Member -MemberType NoteProperty -Name $Member -Value $AddObject.$Member
         }
         else{
 
-            if($Baseobject.$Member.GetType().Name -eq 'String' -or $Baseobject.$Member.GetType().Name -match 'Object\[\]'){
+            if($Baseobject.$Member.GetType().Name -eq 'String'){
                 $BaseObject.$Member =  ($BaseObject.$Member,$AddObject.$Member|select -Unique)
+            }
+            elseif($Baseobject.$Member.GetType().Name -match 'Object\[\]'){
+                $BaseObject.$Member =  ($BaseObject.$Member+$AddObject.$Member|select -Unique)
             }
             else{
                 $BaseObject.$Member =  (CombineObject $BaseObject.$Member $AddObject.$Member)
@@ -98,11 +95,7 @@ function CombineObject{
     return $BaseObject
 }
 
-
-
-
-$base.variables = CombineVariables -Base $base -Additive $additive
+$base.variables =  CombineVariables -Base $base -Additive $additive
 $base.parameters = CombineParameters -Base $base -Additive $additive
-$base.outputs = CombineOutputs -Base $base -Additive $additive
-#$base.resources =
-CombineResources -Base $Base -Additive $Additive
+$base.outputs =    CombineOutputs -Base $base -Additive $additive
+$base.resources =  CombineResources -Base $Base -Additive $Additive
