@@ -36,18 +36,32 @@ if($Continue -ne 6){
 
 $successFiles = @()
 $failedFiles = @()
-foreach($File in $FileBrowser.FileNames){
-    $FileName = (gi $File).Name
-    try{
-        Copy-Item -Path $File -Destination $OutputFolder -Force
-        gi $OutputFolder\$Filename | where{$_.LastWriteTime = Get-Date}
-        $successFiles += $FileName
-    }
-    catch{
-        $failedFiles += $FileName
+
+
+$inputLocation = (get-item $FileBrowser.FileNames).DirectoryName|select -First 1
+if($inputLocation -eq $OutputFolder){
+    foreach($File in $FileBrowser.FileNames){
+        try{
+            Get-Item $File |? {$_.LastWriteTime = Get-Date}
+            $successFiles += $FileName
+        }catch{
+            $failedFiles += $FileName
+        }
     }
 }
-
+else{
+    foreach($File in $FileBrowser.FileNames){
+        $FileName = (gi $File).Name
+        try{
+            Copy-Item -Path $File -Destination $OutputFolder -Force
+            gi $OutputFolder\$Filename | where{$_.LastWriteTime = Get-Date}
+            $successFiles += $FileName
+        }
+                catch{
+        $failedFiles += $FileName
+    }
+    }
+}
 @"
 File(s) Placed for Processing :
  ->$($successFiles -join "`r`n ->")
@@ -57,4 +71,3 @@ Unable to place the following files:
 "@
 
 $FileBrowser.Dispose()
-#$FolderName.Dispose();Start-BitsTransfer -Source $File -Destination $outputFolder
