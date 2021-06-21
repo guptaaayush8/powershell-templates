@@ -54,6 +54,18 @@ $Var2 =  "{
         'rg-prd': {
             'isSecret': false,
             'value': 'rg-$Name-prd'
+        },
+        'rg-apim-dev': {
+            'isSecret': false,
+            'value': 'rg-apiplatform-nonprd'
+        },
+        'rg-apim-nonprd': {
+            'isSecret': false,
+            'value': 'rg-apiplatform-nonprd'
+        },
+        'rg-apim-prd': {
+            'isSecret': false,
+            'value': 'rg-apiplatform-prd'
         }}, 
     'variableGroupProjectReferences': [{
         'name': 'var-lc-$Name',
@@ -75,7 +87,7 @@ $Names = $VariableGroups.value|select name,id
 
 
 
-#UpdateAll Variable Groups
+<#UpdateAll Variable Groups
 
 
 
@@ -142,3 +154,5 @@ $Var2 =  "{
  Invoke-RestMethod -Method Put -Uri $CommonURI -Headers $Auth -Body $var2 -ContentType 'application/json'
 
  }
+
+ #>

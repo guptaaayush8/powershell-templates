@@ -1,0 +1,4 @@
+RepoName,FileName, InboundPort,Outbound,Backup
+rg-intergation-dpass,DPASS-file,FILE,SFTP,Yes
+rg-intergation-dpass,DPASS-file2,FILE,SFTP,Yes
+rg-intergation-dpass,DPASS-file3,FILE,SFTP,Yes
