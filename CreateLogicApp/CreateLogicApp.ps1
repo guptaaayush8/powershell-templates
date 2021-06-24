@@ -39,108 +39,108 @@ param(
 }
 function CombineParameters{
     param(
-        $Base,
-        $Additive
+        $BaseTmp,
+        $AdditiveTmp
     )
-    foreach($param in ($additive.parameters|gm -MemberType NoteProperty).Name){
+    foreach($param in ($AdditiveTmp.parameters|gm -MemberType NoteProperty).Name){
     try{
-        $Base.parameters|Add-Member -MemberType NoteProperty -Name $param -Value $Additive.parameters.$param -Force
+        $BaseTmp.parameters|Add-Member -MemberType NoteProperty -Name $param -Value $AdditiveTmp.parameters.$param -Force
     }catch{}
     }
-    return $Base.parameters|select -Unique
+    return $BaseTmp.parameters|select -Unique
 }
 function CombineVariables{
     param(
-        $Base,
-        $Additive
+        $BaseTmp,
+        $AdditiveTmp
     )
-    foreach($Var in ($additive.variables|gm -MemberType NoteProperty).Name){
+    foreach($Var in ($AdditiveTmp.variables|gm -MemberType NoteProperty).Name){
     try{
-        $Base.variables|Add-Member -MemberType NoteProperty -Name $Var -Value $Additive.variables.$Var -Force
+        $BaseTmp.variables|Add-Member -MemberType NoteProperty -Name $Var -Value $AdditiveTmp.variables.$Var -Force
     }catch{}
     }
-    return $Base.variables|select -Unique
+    return $BaseTmp.variables|select -Unique
 }
 function CombineOutputs{
     param(
-        $Base,
-        $Additive
+        $BaseTmp,
+        $AdditiveTmp
     )
     try{
-    foreach($Var in ($additive.Outputs|gm -MemberType NoteProperty -ErrorAction SilentlyContinue).Name){
+    foreach($Var in ($AdditiveTmp.Outputs|gm -MemberType NoteProperty -ErrorAction SilentlyContinue).Name){
     try{
-        $Base.outputs|Add-Member -MemberType NoteProperty -Name $Var -Value $Additive.outputs.$Var -Force
+        $BaseTmp.outputs|Add-Member -MemberType NoteProperty -Name $Var -Value $AdditiveTmp.outputs.$Var -Force
     }catch{}
     }}catch{}
-    return $Base.outputs|select -Unique
+    return $BaseTmp.outputs|select -Unique
 }
 function CombineResources{
-    param($Base,$Additive)
+    param($BaseTmp,$AdditiveTmp)
 
-    $BaseNames = $Base.resources.name
-    $AdditiveNames = $Additive.resources.name
+    $BaseTmpNames = $BaseTmp.resources.name
+    $AdditiveTmpNames = $AdditiveTmp.resources.name
     $ResourceObject =@()
-    foreach($Name in $AdditiveNames){
-        if($BaseNames -contains $Name){
+    foreach($Name in $AdditiveTmpNames){
+        if($BaseTmpNames -contains $Name){
             Write-Verbose $Name
-            $AddObject = $Additive.resources|where{$_.name -eq $Name}
-            $BaseObject = $Base.resources|where{$_.name -eq $Name}
-            $ResourceObject += (CombineObject -BaseObject $BaseObject -AddObject $AddObject)
+            $AddObject = $AdditiveTmp.resources|where{$_.name -eq $Name}
+            $BaseTmpObject = $BaseTmp.resources|where{$_.name -eq $Name}
+            $ResourceObject += (CombineObject -BaseObject $BaseTmpObject -AddObject $AddObject)
         }
         else{
         Write-Verbose "Else"
         Write-Verbose $Name
-            $ResourceObject += $Additive.resources|where{$_.name -eq $Name}
+            $ResourceObject += $AdditiveTmp.resources|where{$_.name -eq $Name}
         }
     }
 
 
-    foreach($Name in $BaseNames){
+    foreach($Name in $BaseTmpNames){
         if($ResourceObject.Name -notcontains $Name){
-        $ResourceObject += $Base.resources|where{$_.name -eq $Name}
+        $ResourceObject += $BaseTmp.resources|where{$_.name -eq $Name}
         }
     }
     return $ResourceObject
 }
 function CombineObject{
     param(
-        $BaseObject,$AddObject
+        $BaseTmpObject,$AddObject
     )
-    Write-Verbose ($BaseObject|Out-String)
+    Write-Verbose ($BaseTmpObject|Out-String)
     Write-Verbose ($AddObject|Out-String)
-    $BaseMembers = ($BaseObject|gm -MemberType NoteProperty).Name
+    $BaseTmpMembers = ($BaseTmpObject|gm -MemberType NoteProperty).Name
     $AddMembers = ($AddObject|gm -MemberType NoteProperty).Name
     foreach($Member in $AddMembers){
-        if($BaseMembers -notcontains $Member){
-            $BaseObject|Add-Member -MemberType NoteProperty -Name $Member -Value $AddObject.$Member
+        if($BaseTmpMembers -notcontains $Member){
+            $BaseTmpObject|Add-Member -MemberType NoteProperty -Name $Member -Value $AddObject.$Member
         }
         else{
 
-            if($Baseobject.$Member.GetType().Name -eq 'String'){
-                $BaseObject.$Member =  ($BaseObject.$Member,$AddObject.$Member|select -Unique)
+            if($BaseTmpobject.$Member.GetType().Name -eq 'String'){
+                $BaseTmpObject.$Member =  ($BaseTmpObject.$Member,$AddObject.$Member|select -Unique)
             }
-            elseif($Baseobject.$Member.GetType().Name -match 'Object\[\]'){
-                $BaseObject.$Member =  ($BaseObject.$Member+$AddObject.$Member|select -Unique)
+            elseif($BaseTmpobject.$Member.GetType().Name -match 'Object\[\]'){
+                $BaseTmpObject.$Member =  ($BaseTmpObject.$Member+$AddObject.$Member|select -Unique)
             }
             else{
-                $BaseObject.$Member =  (CombineObject $BaseObject.$Member $AddObject.$Member)
+                $BaseTmpObject.$Member =  (CombineObject $BaseTmpObject.$Member $AddObject.$Member)
             }
         }
     }
-    return $BaseObject
+    return $BaseTmpObject
 }
 function CombineJSONS {
     param(
-        $Base,
-        $Additive
+        $BaseTmp,
+        $AdditiveTmp
     )
    
-    $Base.variables =  CombineVariables -Base $Base -Additive $Additive
-    $Base.parameters = CombineParameters -Base $Base -Additive $Additive
-    $Base.outputs =    CombineOutputs -Base $Base -Additive $Additive
-    $Base.resources =  CombineResources -Base $Base -Additive $Additive
+    $BaseTmp.variables =  CombineVariables -Base $BaseTmp -Additive $AdditiveTmp
+    $BaseTmp.parameters = CombineParameters -Base $BaseTmp -Additive $AdditiveTmp
+    $BaseTmp.outputs =    CombineOutputs -Base $BaseTmp -Additive $AdditiveTmp
+    $BaseTmp.resources =  CombineResources -Base $BaseTmp -Additive $AdditiveTmp
 
-    return $Base
+    return $BaseTmp
 }
 
 $Files = dir -Path .\InputCSV -Filter "*.csv"
@@ -153,29 +153,54 @@ foreach($File in $Files){
         CreateSolnFiles -ProjectName $SLNName -LappJSONS $LappJSONS.FileName
         foreach($lapp in $LappJSONS){
             
-            $Base = gc .\Config\BaseLappFile\CommonARM.json |ConvertFrom-Json
-            
+            $BaseTmp = gc .\Config\BaseLappFile\CommonARM.json |ConvertFrom-Json
+            $BaseParamDEV = gc .\Config\BaseLappFile\CommonARMParamDEV.json |ConvertFrom-Json
+            $BaseParamSTG = gc .\Config\BaseLappFile\CommonARMParamSTG.json |ConvertFrom-Json
+            $BaseParamPRD = gc .\Config\BaseLappFile\CommonARMParamPRD.json |ConvertFrom-Json
             #InboundPort
             if($lapp.InboundPort -ne $null){
-               try{$Additive = gc ".\Config\InboundPort\$($lapp.inboundport).json"|ConvertFrom-Json
-               $Base = CombineJSONS -Base $Base -Additive $Additive
+               try{
+               $AdditiveTmp = gc ".\Config\InboundPort\$($lapp.inboundport)\template.json"|ConvertFrom-Json
+               $AdditiveParamDEV = gc ".\Config\InboundPort\$($lapp.InboundPort)\paramDEV.json"|ConvertFrom-Json
+               $AdditiveParamSTG = gc ".\Config\InboundPort\$($lapp.InboundPort)\paramSTG.json"|ConvertFrom-Json
+               $AdditiveParamPRD = gc ".\Config\InboundPort\$($lapp.InboundPort)\paramPRD.json"|ConvertFrom-Json
+               $BaseTmp = CombineJSONS -Base $BaseTmp -Additive $AdditiveTmp
+               $BaseParamDEV = CombineObject -BaseTmpObject $BaseParamDEV -AddObject $AdditiveParamDEV
+               $BaseParamSTG = CombineObject -BaseTmpObject $BaseParamSTG -AddObject $AdditiveParamSTG
+               $BaseParamPRD = CombineObject -BaseTmpObject $BaseParamPRD -AddObject $AdditiveParamPRD
                }catch{}
             }
             #OutBound
             if($lapp.Outbound -ne $null){
                try{
-                    $Additive = gc ".\Config\OutBound\$($lapp.Outbound).json"|ConvertFrom-Json
-                    $Base = CombineJSONS -Base $Base -Additive $Additive
+                    $AdditiveTmp = gc ".\Config\OutBound\$($lapp.Outbound)\template.json"|ConvertFrom-Json
+                    $AdditiveParamDEV = gc ".\Config\OutBound\$($lapp.Outbound)\paramDEV.json"|ConvertFrom-Json
+                    $AdditiveParamSTG = gc ".\Config\OutBound\$($lapp.Outbound)\paramSTG.json"|ConvertFrom-Json
+                    $AdditiveParamPRD = gc ".\Config\OutBound\$($lapp.Outbound)\paramPRD.json"|ConvertFrom-Json
+                    $BaseTmp = CombineJSONS -Base $BaseTmp -Additive $AdditiveTmp
+                    $BaseParamDEV = CombineObject -BaseTmpObject $BaseParamDEV -AddObject $AdditiveParamDEV
+                    $BaseParamSTG = CombineObject -BaseTmpObject $BaseParamSTG -AddObject $AdditiveParamSTG
+                    $BaseParamPRD = CombineObject -BaseTmpObject $BaseParamPRD -AddObject $AdditiveParamPRD
                }catch{}
             }
             #Backup
-            if($lapp.Backup.ToUpper() -eq 'Yes'){
-               try{$Additive = gc ".\Config\Backup\Backup.json"|ConvertFrom-Json
-               $Base = CombineJSONS -Base $Base -Additive $Additive
+            if($lapp.Backup -eq 'Yes'){
+               try{
+               $AdditiveTmp = gc ".\Config\Backup\Backup\template.json"|ConvertFrom-Json
+               $AdditiveParamDEV = gc ".\Config\Backup\Backup\paramDEV.json"|ConvertFrom-Json
+               $AdditiveParamSTG = gc ".\Config\Backup\Backup\paramSTG.json"|ConvertFrom-Json
+               $AdditiveParamPRD = gc ".\Config\Backup\Backup\paramPRD.json"|ConvertFrom-Json
+               $BaseTmp = CombineJSONS -Base $BaseTmp -Additive $AdditiveTmp
+               $BaseParamDEV = CombineObject -BaseTmpObject $BaseParamDEV -AddObject $AdditiveParamDEV
+               $BaseParamSTG = CombineObject -BaseTmpObject $BaseParamSTG -AddObject $AdditiveParamSTG
+               $BaseParamPRD = CombineObject -BaseTmpObject $BaseParamPRD -AddObject $AdditiveParamPRD
                }catch{}
             }
 
-            $Base|ConvertTo-Json -Depth 99 |Out-File -FilePath ".\OutPutSoln\$SLNName\logicapp-workflows\$($lapp.FileName).json"
+            ($BaseTmp|ConvertTo-Json -Depth 99) -replace '\\u0027','"' |Out-File -FilePath ".\OutPutSoln\$SLNName\logicapp-workflows\$($lapp.FileName).json"
+            ($BaseParamDEV|ConvertTo-Json -Depth 99) -replace '\\u0027','"' |Out-File -FilePath ".\OutPutSoln\$SLNName\logicapp-workflows\parameters\$($lapp.FileName).parameters.DEV.json"
+            ($BaseParamSTG|ConvertTo-Json -Depth 99) -replace '\\u0027','"' |Out-File -FilePath ".\OutPutSoln\$SLNName\logicapp-workflows\parameters\$($lapp.FileName).parameters.STG.json"
+            ($BaseParamPRD|ConvertTo-Json -Depth 99) -replace '\\u0027','"' |Out-File -FilePath ".\OutPutSoln\$SLNName\logicapp-workflows\parameters\$($lapp.FileName).parameters.PRD.json"
 
         }
    }
