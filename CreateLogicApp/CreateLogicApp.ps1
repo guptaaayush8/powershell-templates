@@ -197,10 +197,10 @@ foreach($File in $Files){
                }catch{}
             }
 
-            ($BaseTmp|ConvertTo-Json -Depth 99) -replace '\\u0027','"' |Out-File -FilePath ".\OutPutSoln\$SLNName\logicapp-workflows\$($lapp.FileName).json"
-            ($BaseParamDEV|ConvertTo-Json -Depth 99) -replace '\\u0027','"' |Out-File -FilePath ".\OutPutSoln\$SLNName\logicapp-workflows\parameters\$($lapp.FileName).parameters.DEV.json"
-            ($BaseParamSTG|ConvertTo-Json -Depth 99) -replace '\\u0027','"' |Out-File -FilePath ".\OutPutSoln\$SLNName\logicapp-workflows\parameters\$($lapp.FileName).parameters.STG.json"
-            ($BaseParamPRD|ConvertTo-Json -Depth 99) -replace '\\u0027','"' |Out-File -FilePath ".\OutPutSoln\$SLNName\logicapp-workflows\parameters\$($lapp.FileName).parameters.PRD.json"
+            ($BaseTmp|ConvertTo-Json -Depth 99) -replace '\\u0027',"'" |Out-File -FilePath ".\OutPutSoln\$SLNName\logicapp-workflows\$($lapp.FileName).json"
+            ($BaseParamDEV|ConvertTo-Json -Depth 99) -replace '\\u0027',"'" |Out-File -FilePath ".\OutPutSoln\$SLNName\logicapp-workflows\parameters\$($lapp.FileName).parameters.DEV.json"
+            ($BaseParamSTG|ConvertTo-Json -Depth 99) -replace '\\u0027',"'" |Out-File -FilePath ".\OutPutSoln\$SLNName\logicapp-workflows\parameters\$($lapp.FileName).parameters.STG.json"
+            ($BaseParamPRD|ConvertTo-Json -Depth 99) -replace '\\u0027',"'" |Out-File -FilePath ".\OutPutSoln\$SLNName\logicapp-workflows\parameters\$($lapp.FileName).parameters.PRD.json"
 
         }
    }
