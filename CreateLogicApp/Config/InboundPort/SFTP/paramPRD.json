@@ -1,0 +1,43 @@
+﻿{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "sftpHostName": {
+      "value": "sftp.lyondellbasell.com"
+    },
+    "kvsftpUserName": {
+      "reference": {
+        "keyVault": {
+          "id": "/subscriptions/801612ae-6df6-494c-8183-516455bb8a70/resourceGroups/rg-apiplatform-prd/providers/Microsoft.KeyVault/vaults/kv-logicapps-prd"
+        },
+        "secretName": "hrintelex-sftpUserName"
+      }
+    },
+    "kvsftpPassword": {
+      "reference": {
+        "keyVault": {
+          "id": "/subscriptions/801612ae-6df6-494c-8183-516455bb8a70/resourceGroups/rg-apiplatform-prd/providers/Microsoft.KeyVault/vaults/kv-logicapps-prd"
+        },
+        "secretName": "hrintelex-sftpPassword"
+      }
+    },
+    "sftpSSHPrivateKey": {
+      "value": ""
+    },
+    "sftpSSHPrivateKeyPassphrase": {
+      "value": ""
+    },
+    "sftpPortNumber": {
+      "value": 22
+    },
+    "sftpAcceptAnySshHostKey": {
+      "value": true
+    },
+    "sftpSSHHostKeyFingerprint": {
+      "value": ""
+    },
+    "sftpRootFolder": {
+      "value": "/Inbound"
+    }
+  }
+}

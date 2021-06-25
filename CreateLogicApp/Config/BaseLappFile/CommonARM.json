@@ -66,13 +66,6 @@
         "description": "Integration Service Environment"
       }
     },
-    "integrationAccount": {
-      "type": "string",
-      "defaultValue": "rg-apiplatform-nonprd/ia-iseapiplatform-nonprd",
-      "metadata": {
-        "description": "Integration Account"
-      }
-    },
     "servicebusNamespace": {
       "type": "string",
       "defaultValue": "",
@@ -112,8 +105,6 @@
   "variables": {
     "varISEParams": "[split(parameters('integrationServiceEnvironment'),'/')]",
     "varISEId": "[resourceId(variables('varISEParams')[0] ,'Microsoft.Logic/integrationServiceEnvironments', variables('varISEParams')[1])]",
-    "varIAParams": "[split(parameters('integrationAccount'),'/')]",
-    "varIAId": "[resourceId(variables('varIAParams')[0] ,'Microsoft.Logic/integrationAccounts', variables('varIAParams')[1])]",
     "varSbParams": "[split(parameters('servicebusNamespace'),'/')]",
     "varAuthRuleResourceId": "[resourceId(variables('varSbParams')[0],'Microsoft.ServiceBus/namespaces/authorizationRules', variables('varSbParams')[1], 'RootManageSharedAccessKey')]",
     "vardiagnosticSettingName": "[concat('diags-',  parameters('logicAppName'))]",

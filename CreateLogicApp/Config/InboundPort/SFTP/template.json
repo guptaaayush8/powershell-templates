@@ -1,9 +1,5 @@
 {
   "parameters": {
-    "logicAppLocation": {
-      "type": "string",
-      "defaultValue": "eastus"
-    },
     "sftpHostName": {
       "type": "string",
       "metadata": {
@@ -56,19 +52,10 @@
         "description": "Root folder path."
       },
       "defaultValue": "/BTM-DEV/OUT/AMEGA"
-    },
-    "integrationServiceEnvironment": {
-      "type": "string",
-      "defaultValue": "",
-      "metadata": {
-        "description": "Integration Service Environment"
-      }
     }
   },
   "variables": {
-    "varsftpConnectionName": "[concat('conn-', 'sftp-', parameters('sftpHostName'))]",
-    "varISEParams": "[split(parameters('integrationServiceEnvironment'),'/')]",
-    "varISEId": "[resourceId(variables('varISEParams')[0] ,'Microsoft.Logic/integrationServiceEnvironments', variables('varISEParams')[1])]"
+    "varsftpConnectionName": "[concat('conn-', 'sftp-', parameters('sftpHostName'))]"
   },
   "resources": [
     {

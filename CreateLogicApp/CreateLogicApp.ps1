@@ -85,7 +85,7 @@ function CombineResources{
             Write-Verbose $Name
             $AddObject = $AdditiveTmp.resources|where{$_.name -eq $Name}
             $BaseTmpObject = $BaseTmp.resources|where{$_.name -eq $Name}
-            $ResourceObject += (CombineObject -BaseObject $BaseTmpObject -AddObject $AddObject)
+            $ResourceObject += (CombineObject -BaseTmpObject $BaseTmpObject -AddObject $AddObject)
         }
         else{
         Write-Verbose "Else"
@@ -135,10 +135,10 @@ function CombineJSONS {
         $AdditiveTmp
     )
    
-    $BaseTmp.variables =  CombineVariables -Base $BaseTmp -Additive $AdditiveTmp
-    $BaseTmp.parameters = CombineParameters -Base $BaseTmp -Additive $AdditiveTmp
-    $BaseTmp.outputs =    CombineOutputs -Base $BaseTmp -Additive $AdditiveTmp
-    $BaseTmp.resources =  CombineResources -Base $BaseTmp -Additive $AdditiveTmp
+    $BaseTmp.variables =  CombineVariables -BaseTmp $BaseTmp -AdditiveTmp $AdditiveTmp
+    $BaseTmp.parameters = CombineParameters -BaseTmp $BaseTmp -AdditiveTmp $AdditiveTmp
+    $BaseTmp.outputs =    CombineOutputs -BaseTmp $BaseTmp -AdditiveTmp $AdditiveTmp
+    $BaseTmp.resources =  CombineResources -BaseTmp $BaseTmp -AdditiveTmp $AdditiveTmp
 
     return $BaseTmp
 }
@@ -164,7 +164,7 @@ foreach($File in $Files){
                $AdditiveParamDEV = gc ".\Config\InboundPort\$($lapp.InboundPort)\paramDEV.json"|ConvertFrom-Json
                $AdditiveParamSTG = gc ".\Config\InboundPort\$($lapp.InboundPort)\paramSTG.json"|ConvertFrom-Json
                $AdditiveParamPRD = gc ".\Config\InboundPort\$($lapp.InboundPort)\paramPRD.json"|ConvertFrom-Json
-               $BaseTmp = CombineJSONS -Base $BaseTmp -Additive $AdditiveTmp
+               $BaseTmp = CombineJSONS -BaseTmp $BaseTmp -AdditiveTmp $AdditiveTmp
                $BaseParamDEV = CombineObject -BaseTmpObject $BaseParamDEV -AddObject $AdditiveParamDEV
                $BaseParamSTG = CombineObject -BaseTmpObject $BaseParamSTG -AddObject $AdditiveParamSTG
                $BaseParamPRD = CombineObject -BaseTmpObject $BaseParamPRD -AddObject $AdditiveParamPRD
@@ -177,7 +177,7 @@ foreach($File in $Files){
                     $AdditiveParamDEV = gc ".\Config\OutBound\$($lapp.Outbound)\paramDEV.json"|ConvertFrom-Json
                     $AdditiveParamSTG = gc ".\Config\OutBound\$($lapp.Outbound)\paramSTG.json"|ConvertFrom-Json
                     $AdditiveParamPRD = gc ".\Config\OutBound\$($lapp.Outbound)\paramPRD.json"|ConvertFrom-Json
-                    $BaseTmp = CombineJSONS -Base $BaseTmp -Additive $AdditiveTmp
+                    $BaseTmp = CombineJSONS -BaseTmp $BaseTmp -AdditiveTmp $AdditiveTmp
                     $BaseParamDEV = CombineObject -BaseTmpObject $BaseParamDEV -AddObject $AdditiveParamDEV
                     $BaseParamSTG = CombineObject -BaseTmpObject $BaseParamSTG -AddObject $AdditiveParamSTG
                     $BaseParamPRD = CombineObject -BaseTmpObject $BaseParamPRD -AddObject $AdditiveParamPRD
@@ -190,7 +190,7 @@ foreach($File in $Files){
                $AdditiveParamDEV = gc ".\Config\Backup\Backup\paramDEV.json"|ConvertFrom-Json
                $AdditiveParamSTG = gc ".\Config\Backup\Backup\paramSTG.json"|ConvertFrom-Json
                $AdditiveParamPRD = gc ".\Config\Backup\Backup\paramPRD.json"|ConvertFrom-Json
-               $BaseTmp = CombineJSONS -Base $BaseTmp -Additive $AdditiveTmp
+               $BaseTmp = CombineJSONS -BaseTmp $BaseTmp -AdditiveTmp $AdditiveTmp
                $BaseParamDEV = CombineObject -BaseTmpObject $BaseParamDEV -AddObject $AdditiveParamDEV
                $BaseParamSTG = CombineObject -BaseTmpObject $BaseParamSTG -AddObject $AdditiveParamSTG
                $BaseParamPRD = CombineObject -BaseTmpObject $BaseParamPRD -AddObject $AdditiveParamPRD
@@ -205,7 +205,6 @@ foreach($File in $Files){
         }
    }
 }
-
 
 
 

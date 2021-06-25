@@ -1,0 +1,28 @@
+﻿{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "isefilesystemRootFolder": {
+      "value": "\\\\ohciss01.lyondell.com\\interfaces"
+    },
+    "folder": {
+      "value": "/rcv/hrintelex"
+    },
+    "kvisefilesystemUserName": {
+      "reference": {
+        "keyVault": {
+          "id": "/subscriptions/bf5c2e74-56c8-49ac-adef-0c9f27dfeca9/resourceGroups/rg-apiplatform-nonprd/providers/Microsoft.KeyVault/vaults/kv-logicapp-nonprd"
+        },
+        "secretName": "sid-sidaziss01-username"
+      }
+    },
+    "kvisefilesystemPassword": {
+      "reference": {
+        "keyVault": {
+          "id": "/subscriptions/bf5c2e74-56c8-49ac-adef-0c9f27dfeca9/resourceGroups/rg-apiplatform-nonprd/providers/Microsoft.KeyVault/vaults/kv-logicapp-nonprd"
+        },
+        "secretName": "sid-sidaziss01-password"
+      }
+    }
+  }
+}

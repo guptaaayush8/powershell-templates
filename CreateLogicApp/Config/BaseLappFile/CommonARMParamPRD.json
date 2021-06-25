@@ -1,0 +1,33 @@
+﻿{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "logicAppName": {
+      "value": "lapp-hrintelex-personmaster-file"
+    },
+    "logicAppLocation": {
+      "value": "eastus"
+    },
+    "integrationServiceEnvironment": {
+      "value": "rg-apiplatform-prd/ise-apiplatform-prd"
+    },
+    
+    "servicebusNamespace": {
+      "value": "rg-integration-systemapp-prd/sb-integration-lyb-prd"
+    },
+    "logAnalyticsWS": {
+      "value": "rg-logging-prd-eus/law-shared-prd-eus"
+    },
+    "nestedLogicApp": {
+      "value": "rg-integration-systemapp-prd/lapp-core-bloboperation"
+    },
+   
+    "functionApp": {
+      "value": "rg-integration-common-prd/azfun-integration-lyb-prd"
+    },
+   
+    "environment": {
+      "value": "prd"
+    }
+  }
+}

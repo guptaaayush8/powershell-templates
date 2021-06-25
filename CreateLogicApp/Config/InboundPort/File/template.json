@@ -1,8 +1,11 @@
 {
   "parameters": {
-    "logicAppLocation": {
+    "folder": {
       "type": "string",
-      "defaultValue": "[resourceGroup().location]"
+      "defaultValue": "/rcv/hrintelex",
+      "metadata": {
+        "description": "Trigger location"
+      }
     },
     "isefilesystemRootFolder": {
       "type": "string",
