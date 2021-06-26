@@ -1,0 +1,129 @@
+﻿{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": {
+      "type": "string",
+      "defaultValue": "eastus",
+      "allowedValues": [
+        "[resourceGroup().location]",
+        "eastasia",
+        "southeastasia",
+        "centralus",
+        "eastus",
+        "eastus2",
+        "westus",
+        "northcentralus",
+        "southcentralus",
+        "northeurope",
+        "westeurope",
+        "japanwest",
+        "japaneast",
+        "brazilsouth",
+        "australiaeast",
+        "australiasoutheast",
+        "southindia",
+        "centralindia",
+        "westindia",
+        "canadacentral",
+        "canadaeast",
+        "uksouth",
+        "ukwest",
+        "westcentralus",
+        "westus2",
+        "koreacentral",
+        "koreasouth",
+        "francecentral",
+        "francesouth",
+        "uaecentral",
+        "uaenorth",
+        "southafricanorth",
+        "southafricawest",
+        "switzerlandnorth",
+        "switzerlandwest",
+        "germanynorth",
+        "germanywestcentral",
+        "norwayeast",
+        "brazilsoutheast"
+      ],
+      "metadata": {
+        "description": "Location of the Logic App."
+      }
+    },
+    "integrationAccount": {
+      "type": "string",
+      "defaultValue": "rg-apiplatform-nonprd/ia-iseapiplatform-nonprd",
+      "metadata": {
+        "description": "Integration Account"
+      }
+    },
+    "integrationAccountName": {
+      "type": "string",
+      "defaultValue": "ia-iseapiplatform-nonprd",
+      "metadata": {
+        "description": "Integration Account"
+      }
+    },
+    "integrationServiceEnvironment": {
+      "type": "string",
+      "defaultValue": "rg-apiplatform-nonprd/ise-apiplatform-nonprd",
+      "metadata": {
+        "description": "Integration Service Environment"
+      }
+    }
+  },
+  "variables": {
+    "varISEParams": "[split(parameters('integrationServiceEnvironment'),'/')]",
+    "varISEId": "[resourceId(variables('varISEParams')[0] ,'Microsoft.Logic/integrationServiceEnvironments', variables('varISEParams')[1])]",
+    "varISEResId": "[variables('varISEId')]",
+    "varIAParams": "[split(parameters('integrationAccount'),'/')]",
+    "varIAId": "[resourceId(variables('varIAParams')[0] ,'Microsoft.Logic/integrationAccounts', variables('varIAParams')[1])]"
+  },
+  "resources": [
+    {
+      "name": "[concat(parameters('integrationAccountName'), '/Lyondell_TAX')]",
+      "type": "Microsoft.Logic/integrationAccounts/partners",
+      "apiVersion": "2019-05-01",
+      "location": "[parameters('location')]",
+      "tags": {},
+      "properties": {
+        "partnerType": "B2B",
+        "metadata": {},
+        "content": {
+          "b2b": {
+            "businessIdentities": [
+              {
+                "qualifier": "32",
+                "value": "760550481"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "[concat(parameters('integrationAccountName'), '/Internal-Revenue-Service')]",
+      "type": "Microsoft.Logic/integrationAccounts/partners",
+      "apiVersion": "2019-05-01",
+      "location": "[parameters('location')]",
+      "tags": {},
+      "properties": {
+        "partnerType": "B2B",
+        "metadata": {},
+        "content": {
+          "b2b": {
+            "businessIdentities": [
+              {
+                "qualifier": "1",
+                "value": "040539587"
+              }
+            ]
+          }
+        }
+      }
+    }
+   
+  ],
+  "outputs": {
+  }
+}

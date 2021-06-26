@@ -1,0 +1,20 @@
+﻿{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": {
+      "value": "eastus"
+    },
+    "integrationAccount": {
+      "value": "rg-apiplatform-prd/ia-iseapiplatform-prd"
+    },
+    "integrationAccountName": {
+      "value": "ia-iseapiplatform-prd"
+    },
+    "integrationServiceEnvironment": {
+      "value": "rg-apiplatform-prd/ise-apiplatform-prd"
+    }
+
+
+  }
+}

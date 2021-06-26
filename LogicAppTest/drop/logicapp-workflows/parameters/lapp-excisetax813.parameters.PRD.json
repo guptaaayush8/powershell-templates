@@ -1,0 +1,67 @@
+﻿{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "logicAppName": {
+      "value": "lapp-excisetax813"
+    },
+    "logicAppLocation": {
+      "value": "eastus"
+    },
+    "integrationServiceEnvironment": {
+      "value": "rg-apiplatform-prd/ise-apiplatform-prd"
+    },
+    "integrationAccount": {
+      "value": "rg-apiplatform-prd/ia-iseapiplatform-prd"
+    },
+    "isefilesystemRootFolder": {
+      "value": "\\\\ohcisp01.lyondell.com\\Interfaces"
+    },
+    "servicebusNamespace": {
+      "value": "rg-integration-systemapp-prd/sb-integration-lyb-prd"
+    },
+    "logAnalyticsWS": {
+      "value": "rg-logging-prd-eus/law-shared-prd-eus"
+    },
+    "nestedLogicAppBlob": {
+      "value": "rg-integration-systemapp-prd/lapp-core-bloboperation"
+    },
+    "nestedLogicAppEncodeX12": {
+      "value": "rg-integration-systemapp-prd/lapp-core-encode-x12"
+    },
+    "folder": {
+      "value": "\\edi\\partnerdocs\\tax\\excise\\"
+    },
+    "nestedLogicAppTransform": {
+      "value": "rg-integration-systemapp-prd/lapp-core-transform-xml"
+    },
+    "functionApp": {
+      "value": "rg-integration-common-prd/azfun-integration-lyb-prd"
+    },
+    "kvisefilesystemUserName": {
+      "reference": {
+        "keyVault": {
+          "id": "/subscriptions/801612ae-6df6-494c-8183-516455bb8a70/resourceGroups/rg-apiplatform-prd/providers/Microsoft.KeyVault/vaults/kv-logicapps-prd"
+        },
+        "secretName": "sid-sidazisp01-username"
+      }
+    },
+    "kvisefilesystemPassword": {
+      "reference": {
+        "keyVault": {
+          "id": "/subscriptions/801612ae-6df6-494c-8183-516455bb8a70/resourceGroups/rg-apiplatform-prd/providers/Microsoft.KeyVault/vaults/kv-logicapps-prd"
+        },
+        "secretName": "sid-sidazisp01-password"
+      }
+    },
+    "environment": {
+      "value": "prd"
+    },
+    "pollingInterval": {
+      "value": 10
+    },
+    "sendport": {
+      "value": "\\EDI\\PartnerDocs\\Tax\\Excise\\Out"
+    }
+  }
+}

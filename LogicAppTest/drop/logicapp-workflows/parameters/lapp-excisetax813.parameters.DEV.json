@@ -1,0 +1,67 @@
+﻿{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "logicAppName": {
+      "value": "lapp-excisetax813"
+    },
+    "logicAppLocation": {
+      "value": "eastus"
+    },
+    "integrationServiceEnvironment": {
+      "value": "rg-apiplatform-nonprd/ise-apiplatform-nonprd"
+    },
+    "isefilesystemRootFolder": {
+      "value": "\\\\devwks336.lyondell.com\\DocumentRetention"
+    },
+    "servicebusNamespace": {
+      "value": "rg-integration-systemapp-dev/sb-integration-lyb-dev"
+    },
+    "logAnalyticsWS": {
+      "value": "rg-logging-nonprd-eus/law-shared-nonprd"
+    },
+    "nestedLogicAppBlob": {
+      "value": "rg-integration-systemapp-dev/lapp-core-bloboperation"
+    },
+    "nestedLogicAppEncodeX12": {
+      "value": "rg-integration-systemapp-dev/lapp-core-encode-x12"
+    },
+    "folder": {
+      "value": "rcv\\excisetax813"
+    },
+    "nestedLogicAppTransform": {
+      "value": "rg-integration-systemapp-dev/lapp-core-transform-xml"
+    },
+    "integrationAccount": {
+      "value": "rg-apiplatform-nonprd/ia-iseapiplatform-nonprd"
+    },
+    "functionApp": {
+      "value": "rg-integration-common-dev/azfun-integration-lyb-dev"
+    },
+    "kvisefilesystemUserName": {
+      "reference": {
+        "keyVault": {
+          "id": "/subscriptions/bf5c2e74-56c8-49ac-adef-0c9f27dfeca9/resourceGroups/rg-apiplatform-dev-nonprd/providers/Microsoft.KeyVault/vaults/kv-logicapps-dev-nonprd"
+        },
+        "secretName": "sid-sidazisd01-username"
+      }
+    },
+    "kvisefilesystemPassword": {
+      "reference": {
+        "keyVault": {
+          "id": "/subscriptions/bf5c2e74-56c8-49ac-adef-0c9f27dfeca9/resourceGroups/rg-apiplatform-dev-nonprd/providers/Microsoft.KeyVault/vaults/kv-logicapps-dev-nonprd"
+        },
+        "secretName": "sid-sidazisd01-password"
+      }
+    },
+    "environment": {
+      "value": "dev"
+    },
+    "pollingInterval": {
+      "value": 10
+    },
+    "sendport": {
+      "value": "\\snd\\excisetax813\\"
+    }
+  }
+}

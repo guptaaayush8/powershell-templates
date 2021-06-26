@@ -1,0 +1,18 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": {
+      "value": "eastus"
+    },
+    "integrationAccount": {
+      "value": "rg-apiplatform-nonprd/ia-iseapiplatform-nonprd"
+    },
+    "integrationServiceEnvironment": {
+      "value": "rg-apiplatform-nonprd/ise-apiplatform-nonprd"
+    },
+    "integrationAccountName": {
+      "value": "ia-iseapiplatform-nonprd"
+    }
+  }
+}

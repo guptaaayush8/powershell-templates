@@ -1,0 +1,386 @@
+﻿{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": {
+      "type": "string",
+      "defaultValue": "eastus",
+      "allowedValues": [
+        "[resourceGroup().location]",
+        "eastasia",
+        "southeastasia",
+        "centralus",
+        "eastus",
+        "eastus2",
+        "westus",
+        "northcentralus",
+        "southcentralus",
+        "northeurope",
+        "westeurope",
+        "japanwest",
+        "japaneast",
+        "brazilsouth",
+        "australiaeast",
+        "australiasoutheast",
+        "southindia",
+        "centralindia",
+        "westindia",
+        "canadacentral",
+        "canadaeast",
+        "uksouth",
+        "ukwest",
+        "westcentralus",
+        "westus2",
+        "koreacentral",
+        "koreasouth",
+        "francecentral",
+        "francesouth",
+        "uaecentral",
+        "uaenorth",
+        "southafricanorth",
+        "southafricawest",
+        "switzerlandnorth",
+        "switzerlandwest",
+        "germanynorth",
+        "germanywestcentral",
+        "norwayeast",
+        "brazilsoutheast"
+      ],
+      "metadata": {
+        "description": "Location of the Logic App."
+      }
+    },
+    "integrationAccount": {
+      "type": "string",
+      "defaultValue": "rg-apiplatform-nonprd/ia-iseapiplatform-nonprd",
+      "metadata": {
+        "description": "Integration Account"
+      }
+    },
+    "integrationAccountName": {
+      "type": "string",
+      "defaultValue": "ia-iseapiplatform-nonprd",
+      "metadata": {
+        "description": "Integration Account"
+      }
+    },
+    "integrationServiceEnvironment": {
+      "type": "string",
+      "defaultValue": "rg-apiplatform-nonprd/ise-apiplatform-nonprd",
+      "metadata": {
+        "description": "Integration Service Environment"
+      }
+    }
+
+  },
+  "variables": {
+    "varISEParams": "[split(parameters('integrationServiceEnvironment'),'/')]",
+    "varISEId": "[resourceId(variables('varISEParams')[0] ,'Microsoft.Logic/integrationServiceEnvironments', variables('varISEParams')[1])]",
+    "varISEResId": "[variables('varISEId')]",
+    "varIAParams": "[split(parameters('integrationAccount'),'/')]",
+    "varIAId": "[resourceId(variables('varIAParams')[0] ,'Microsoft.Logic/integrationAccounts', variables('varIAParams')[1])]"
+  },
+  "resources": [
+    {
+      "name": "[concat(parameters('integrationAccountName'), '/agLyondell_To_IRS')]",
+      "type": "Microsoft.Logic/integrationAccounts/agreements",
+      "apiVersion": "2019-05-01",
+      "location": "[parameters('location')]",
+      "tags": {},
+      "properties": {
+        "metadata": {},
+        "hostPartner": "Lyondell_TAX",
+        "guestPartner": "Internal-Revenue-Service",
+        "hostIdentity": {
+          "qualifier": "32",
+          "value": "760550481"
+        },
+        "guestIdentity": {
+          "qualifier": "1",
+          "value": "040539587"
+        },
+        "agreementType": "X12",
+        "content": {
+          "x12": {
+            "receiveAgreement": {
+              "protocolSettings": {
+                "validationSettings": {
+                  "validateCharacterSet": false,
+                  "checkDuplicateInterchangeControlNumber": false,
+                  "interchangeControlNumberValidityDays": 30,
+                  "checkDuplicateGroupControlNumber": false,
+                  "checkDuplicateTransactionSetControlNumber": false,
+                  "validateEDITypes": true,
+                  "validateXSDTypes": false,
+                  "allowLeadingAndTrailingSpacesAndZeroes": false,
+                  "trimLeadingAndTrailingSpacesAndZeroes": false,
+                  "trailingSeparatorPolicy": "NotAllowed"
+                },
+                "framingSettings": {
+                  "dataElementSeparator": 126,
+                  "componentSeparator": 58,
+                  "replaceSeparatorsInPayload": false,
+                  "replaceCharacter": 36,
+                  "segmentTerminator": 92,
+                  "characterSet": "UTF8",
+                  "segmentTerminatorSuffix": "None"
+                },
+                "envelopeSettings": {
+                  "controlStandardsId": 124,
+                  "useControlStandardsIdAsRepetitionCharacter": true,
+                  "senderApplicationId": "760550481",
+                  "receiverApplicationId": "040539587050",
+                  "controlVersionNumber": "00403",
+                  "interchangeControlNumberLowerBound": 1,
+                  "interchangeControlNumberUpperBound": 999999999,
+                  "rolloverInterchangeControlNumber": true,
+                  "enableDefaultGroupHeaders": true,
+                  "groupControlNumberLowerBound": 1,
+                  "groupControlNumberUpperBound": 999999999,
+                  "rolloverGroupControlNumber": false,
+                  "groupHeaderAgencyCode": "X",
+                  "groupHeaderVersion": "00403",
+                  "transactionSetControlNumberLowerBound": 1,
+                  "transactionSetControlNumberUpperBound": 999999999,
+                  "rolloverTransactionSetControlNumber": true,
+                  "overwriteExistingTransactionSetControlNumber": true,
+                  "groupHeaderDateFormat": "CCYYMMDD",
+                  "groupHeaderTimeFormat": "HHMM",
+                  "usageIndicator": "Test"
+                },
+                "acknowledgementSettings": {
+                  "needTechnicalAcknowledgement": false,
+                  "batchTechnicalAcknowledgements": true,
+                  "needFunctionalAcknowledgement": false,
+                  "functionalAcknowledgementVersion": "00401",
+                  "batchFunctionalAcknowledgements": true,
+                  "needImplementationAcknowledgement": false,
+                  "batchImplementationAcknowledgements": false,
+                  "needLoopForValidMessages": false,
+                  "sendSynchronousAcknowledgement": true,
+                  "acknowledgementControlNumberLowerBound": 1,
+                  "acknowledgementControlNumberUpperBound": 999999999,
+                  "rolloverAcknowledgementControlNumber": true
+                },
+                "messageFilter": {
+                  "messageFilterType": "Include"
+                },
+                "securitySettings": {
+                  "authorizationQualifier": "03",
+                  "authorizationValue": "I040730357",
+                  "securityQualifier": "01",
+                  "passwordValue": "OHC1221EQU"
+                },
+                "processingSettings": {
+                  "maskSecurityInfo": true,
+                  "convertImpliedDecimal": false,
+                  "preserveInterchange": false,
+                  "suspendInterchangeOnError": false,
+                  "createEmptyXmlTagsForTrailingSeparators": true,
+                  "useDotAsDecimalSeparator": false
+                },
+                "envelopeOverrides": [
+                  {
+                    "targetNamespace": "http://schemas.microsoft.com/BizTalk/EDI/X12/2006",
+                    "protocolVersion": "00403",
+                    "messageId": "813",
+                    "responsibleAgencyCode": "X",
+                    "headerVersion": "004030",
+                    "senderApplicationId": "760550481",
+                    "receiverApplicationId": "040539587050",
+                    "functionalIdentifierCode": "TF",
+                    "dateFormat": "CCYYMMDD",
+                    "timeFormat": "HHMM"
+                  }
+                ],
+                "validationOverrides": [
+                  {
+                    "messageId": "813",
+                    "validateEDITypes": true,
+                    "validateXSDTypes": false,
+                    "allowLeadingAndTrailingSpacesAndZeroes": false,
+                    "validateCharacterSet": false,
+                    "trimLeadingAndTrailingSpacesAndZeroes": false,
+                    "trailingSeparatorPolicy": "NotAllowed"
+                  }
+                ],
+                "messageFilterList": [
+                  {
+                    "messageId": "813"
+                  }
+                ],
+                "schemaReferences": [
+                  {
+                    "messageId": "813",
+                    "schemaVersion": "00403",
+                    "schemaName": "X12_00403_813"
+                  }
+                ],
+                "x12DelimiterOverrides": [
+                  {
+                    "protocolVersion": "00403",
+                    "messageId": "813",
+                    "dataElementSeparator": 126,
+                    "componentSeparator": 94,
+                    "segmentTerminator": 92,
+                    "segmentTerminatorSuffix": "None",
+                    "replaceCharacter": 36,
+                    "replaceSeparatorsInPayload": false,
+                    "targetNamespace": "http://schemas.microsoft.com/BizTalk/EDI/X12/2006"
+                  }
+                ]
+              },
+              "senderBusinessIdentity": {
+                "qualifier": "1",
+                "value": "040539587"
+              },
+              "receiverBusinessIdentity": {
+                "qualifier": "32",
+                "value": "760550481"
+              }
+            },
+            "sendAgreement": {
+              "protocolSettings": {
+                "validationSettings": {
+                  "validateCharacterSet": false,
+                  "checkDuplicateInterchangeControlNumber": false,
+                  "interchangeControlNumberValidityDays": 30,
+                  "checkDuplicateGroupControlNumber": false,
+                  "checkDuplicateTransactionSetControlNumber": false,
+                  "validateEDITypes": true,
+                  "validateXSDTypes": false,
+                  "allowLeadingAndTrailingSpacesAndZeroes": false,
+                  "trimLeadingAndTrailingSpacesAndZeroes": false,
+                  "trailingSeparatorPolicy": "NotAllowed"
+                },
+                "framingSettings": {
+                  "dataElementSeparator": 126,
+                  "componentSeparator": 94,
+                  "replaceSeparatorsInPayload": false,
+                  "replaceCharacter": 36,
+                  "segmentTerminator": 92,
+                  "characterSet": "UTF8",
+                  "segmentTerminatorSuffix": "None"
+                },
+                "envelopeSettings": {
+                  "controlStandardsId": 124,
+                  "useControlStandardsIdAsRepetitionCharacter": false,
+                  "senderApplicationId": "760550481",
+                  "receiverApplicationId": "040539587050",
+                  "controlVersionNumber": "00403",
+                  "interchangeControlNumberLowerBound": 1,
+                  "interchangeControlNumberUpperBound": 999999999,
+                  "rolloverInterchangeControlNumber": true,
+                  "enableDefaultGroupHeaders": true,
+                  "groupControlNumberLowerBound": 1,
+                  "groupControlNumberUpperBound": 999999999,
+                  "rolloverGroupControlNumber": false,
+                  "groupHeaderAgencyCode": "X",
+                  "groupHeaderVersion": "00403",
+                  "transactionSetControlNumberLowerBound": 1,
+                  "transactionSetControlNumberUpperBound": 999999999,
+                  "rolloverTransactionSetControlNumber": true,
+                  "overwriteExistingTransactionSetControlNumber": true,
+                  "groupHeaderDateFormat": "CCYYMMDD",
+                  "groupHeaderTimeFormat": "HHMM",
+                  "usageIndicator": "Test"
+                },
+                "acknowledgementSettings": {
+                  "needTechnicalAcknowledgement": false,
+                  "batchTechnicalAcknowledgements": true,
+                  "needFunctionalAcknowledgement": false,
+                  "functionalAcknowledgementVersion": "00403",
+                  "batchFunctionalAcknowledgements": true,
+                  "needImplementationAcknowledgement": false,
+                  "batchImplementationAcknowledgements": false,
+                  "needLoopForValidMessages": false,
+                  "sendSynchronousAcknowledgement": true,
+                  "acknowledgementControlNumberLowerBound": 1,
+                  "acknowledgementControlNumberUpperBound": 999999999,
+                  "rolloverAcknowledgementControlNumber": true
+                },
+                "messageFilter": {
+                  "messageFilterType": "Include"
+                },
+                "securitySettings": {
+                  "authorizationQualifier": "03",
+                  "authorizationValue": "I040730357",
+                  "securityQualifier": "01",
+                  "passwordValue": "OHC1221EQU"
+                },
+                "processingSettings": {
+                  "maskSecurityInfo": true,
+                  "convertImpliedDecimal": false,
+                  "preserveInterchange": false,
+                  "suspendInterchangeOnError": false,
+                  "createEmptyXmlTagsForTrailingSeparators": true,
+                  "useDotAsDecimalSeparator": false
+                },
+                "envelopeOverrides": [
+                  {
+                    "targetNamespace": "http://schemas.microsoft.com/BizTalk/EDI/X12/2006",
+                    "protocolVersion": "00403",
+                    "messageId": "813",
+                    "responsibleAgencyCode": "X",
+                    "headerVersion": "004030",
+                    "senderApplicationId": "760550481",
+                    "receiverApplicationId": "040539587050",
+                    "functionalIdentifierCode": "TF",
+                    "dateFormat": "CCYYMMDD",
+                    "timeFormat": "HHMM"
+                  }
+                ],
+                "validationOverrides": [
+                  {
+                    "messageId": "813",
+                    "validateEDITypes": true,
+                    "validateXSDTypes": false,
+                    "allowLeadingAndTrailingSpacesAndZeroes": false,
+                    "validateCharacterSet": false,
+                    "trimLeadingAndTrailingSpacesAndZeroes": false,
+                    "trailingSeparatorPolicy": "NotAllowed"
+                  }
+                ],
+                "messageFilterList": [
+                  {
+                    "messageId": "813"
+                  }
+                ],
+                "schemaReferences": [
+                  {
+                    "messageId": "813",
+                    "schemaVersion": "00403",
+                    "schemaName": "X12_00403_813"
+                  }
+                ],
+                "x12DelimiterOverrides": [
+                  {
+                    "protocolVersion": "00403",
+                    "messageId": "813",
+                    "dataElementSeparator": 126,
+                    "componentSeparator": 94,
+                    "segmentTerminator": 92,
+                    "segmentTerminatorSuffix": "None",
+                    "replaceCharacter": 36,
+                    "replaceSeparatorsInPayload": false,
+                    "targetNamespace": "http://schemas.microsoft.com/BizTalk/EDI/X12/2006"
+                  }
+                ]
+              },
+              "senderBusinessIdentity": {
+                "qualifier": "32",
+                "value": "760550481"
+              },
+              "receiverBusinessIdentity": {
+                "qualifier": "1",
+                "value": "040539587"
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "outputs": {
+  }
+}

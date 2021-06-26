@@ -1,0 +1,632 @@
+﻿{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "logicAppName": {
+      "type": "string",
+      "defaultValue": "jhffj",
+      "minLength": 1,
+      "maxLength": 80,
+      "metadata": {
+        "description": "Name of the Logic App."
+      }
+    },
+    "logicAppLocation": {
+      "type": "string",
+      "defaultValue": "eastus",
+      "allowedValues": [
+        "[resourceGroup().location]",
+        "eastasia",
+        "southeastasia",
+        "centralus",
+        "eastus",
+        "eastus2",
+        "westus",
+        "northcentralus",
+        "southcentralus",
+        "northeurope",
+        "westeurope",
+        "japanwest",
+        "japaneast",
+        "brazilsouth",
+        "australiaeast",
+        "australiasoutheast",
+        "southindia",
+        "centralindia",
+        "westindia",
+        "canadacentral",
+        "canadaeast",
+        "uksouth",
+        "ukwest",
+        "westcentralus",
+        "westus2",
+        "koreacentral",
+        "koreasouth",
+        "francecentral",
+        "francesouth",
+        "uaecentral",
+        "uaenorth",
+        "southafricanorth",
+        "southafricawest",
+        "switzerlandnorth",
+        "switzerlandwest",
+        "germanynorth",
+        "germanywestcentral",
+        "norwayeast",
+        "brazilsoutheast"
+      ],
+      "metadata": {
+        "description": "Location of the Logic App."
+      }
+    },
+    "integrationServiceEnvironment": {
+      "type": "string",
+      "defaultValue": "rg-apiplatform-nonprd/ise-apiplatform-nonprd",
+      "metadata": {
+        "description": "Integration Service Environment"
+      }
+    },
+    "isefilesystemRootFolder": {
+      "type": "string",
+      "metadata": {
+        "description": "The root folder of the file share eg:\\\\Machine-Name\\SharedFolderName"
+      },
+      "defaultValue": ""
+    },
+    "servicebusNamespace": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "Name of the Logic App."
+      }
+    },
+    "logAnalyticsWS": {
+      "type": "string",
+      "defaultValue": "rg-logging-nonprd-eus/law-shared-nonprd",
+      "metadata": {
+        "description": "Log Analytics Workspace"
+      }
+    },
+    "nestedLogicAppBlob": {
+      "type": "string",
+      "defaultValue": "rg-integration-systemapp-dev/lapp-core-bloboperation",
+      "metadata": {
+        "description": "Integration Service Environment"
+      }
+    },
+    "folder": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "Trigger location"
+      }
+    },
+    "nestedLogicAppTransform": {
+      "type": "string",
+      "defaultValue": "rg-integration-systemapp-dev/lapp-core-transform-xml",
+      "metadata": {
+        "description": "Integration Service Environment"
+      }
+    },
+    "nestedLogicAppEncodeX12": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "Integration Service Environment"
+      }
+    },
+    "integrationAccount": {
+      "type": "string",
+      "defaultValue": "rg-apiplatform-nonprd/ia-iseapiplatform-nonprd",
+      "metadata": {
+        "description": "Integration Account"
+      }
+    },
+    "functionApp": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "Integration Service Environment"
+      }
+    },
+    "kvisefilesystemUserName": {
+      "type": "string"
+    },
+    "kvisefilesystemPassword": {
+      "type": "securestring"
+    },
+    "environment": {
+      "type": "string",
+      "defaultValue": "dev",
+      "metadata": {
+        "description": "environment"
+      }
+    },
+    "pollingInterval": {
+      "type": "int"
+    },
+    "sendport": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "sendport"
+      }
+    }
+  },
+  "variables": {
+    "varISEParams": "[split(parameters('integrationServiceEnvironment'),'/')]",
+    "varISEId": "[resourceId(variables('varISEParams')[0] ,'Microsoft.Logic/integrationServiceEnvironments', variables('varISEParams')[1])]",
+    "varIAParams": "[split(parameters('integrationAccount'),'/')]",
+    "varIAId": "[resourceId(variables('varIAParams')[0] ,'Microsoft.Logic/integrationAccounts', variables('varIAParams')[1])]",
+    "varfsUsername": "[split(parameters('kvisefilesystemUserName'),'/')]",
+    "varfsConn": "[concat('conn-', 'fs-excisetax813-', parameters('environment'))]",
+    "varSbParams": "[split(parameters('servicebusNamespace'),'/')]",
+    "varAuthRuleResourceId": "[resourceId(variables('varSbParams')[0],'Microsoft.ServiceBus/namespaces/authorizationRules', variables('varSbParams')[1], 'RootManageSharedAccessKey')]",
+    "varsbConnectionName": "[concat('conn-', 'sb-excisetax813-', parameters('environment'))]",
+    "vardiagnosticSettingName": "[concat('diags-',  parameters('logicAppName'))]",
+    "varWSParams": "[split(parameters('logAnalyticsWS'),'/')]",
+    "varworkspaceId": "[resourceId(variables('varWSParams')[0],'Microsoft.OperationalInsights/workspaces/', variables('varWSParams')[1])]",
+    "varNestedLogicAppParamsBlob": "[split(parameters('nestedLogicAppBlob'),'/')]",
+    "varNestedLogicAppResIdBlob": "[resourceId(variables('varNestedLogicAppParamsBlob')[0] ,'Microsoft.Logic/workflows', variables('varNestedLogicAppParamsBlob')[1])]",
+    "varNestedLogicAppParamsTransform": "[split(parameters('nestedLogicAppTransform'),'/')]",
+    "varNestedLogicAppResIdTransform": "[resourceId(variables('varNestedLogicAppParamsTransform')[0] ,'Microsoft.Logic/workflows', variables('varNestedLogicAppParamsTransform')[1])]",
+    "varNestedLogicAppParamsEncodeX12": "[split(parameters('nestedLogicAppEncodeX12'),'/')]",
+    "varNestedLogicAppResIdEncodeX12": "[resourceId(variables('varNestedLogicAppParamsEncodeX12')[0] ,'Microsoft.Logic/workflows', variables('varNestedLogicAppParamsEncodeX12')[1])]",
+    "varFunctionParams": "[split(parameters('functionApp'),'/')]",
+    "varFuncResId": "[resourceId(variables('varFunctionParams')[0] ,'Microsoft.Web/sites/functions', variables('varFunctionParams')[1], 'ErrorParser')]"
+
+  },
+  "resources": [
+    {
+      "name": "[parameters('logicAppName')]",
+      "type": "Microsoft.Logic/workflows",
+      "location": "[parameters('logicAppLocation')]",
+      "tags": {
+        "Company": "lyb",
+        "Domain": "integration",
+        "FunctionalArea": "Tax",
+        "SubFunction": "Tax",
+        "Connector": "File",
+        "Cloud provider": "az",
+        "Region": "eus"
+      },
+      "apiVersion": "2016-06-01",
+      "resources": [
+        {
+          "type": "providers/diagnosticSettings",
+          "name": "[concat('Microsoft.Insights/', variables('vardiagnosticSettingName'))]",
+          "dependsOn": [
+            "[resourceId('Microsoft.Logic/workflows', parameters('logicAppName'))]"
+          ],
+          "apiVersion": "2017-05-01-preview",
+          "properties": {
+            "name": "[variables('vardiagnosticSettingName')]",
+            "storageAccountId": null,
+            "workspaceId": "[variables('varworkspaceId')]",
+            "logs": [
+              {
+                "category": "WorkflowRuntime",
+                "enabled": true,
+                "retentionPolicy": {
+                  "days": 0,
+                  "enabled": false
+                }
+              }
+            ],
+            "metrics": [
+              {
+                "timeGrain": "PT1M",
+                "enabled": false,
+                "retentionPolicy": {
+                  "enabled": false,
+                  "days": 0
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "properties": {
+        "state": "Disabled",
+        "integrationServiceEnvironment": {
+          "id": "[variables('varISEId')]"
+        },
+        "integrationAccount": {
+          "id": "[variables('varIAId')]"
+        },
+        "definition": {
+          "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+          "actions": {
+            "Handle_Exceptions": {
+              "actions": {
+                "Filter_Error_Object": {
+                  "inputs": {
+                    "from": "@result('Scope_Publish_Message')",
+                    "where": "@equals(item()['status'], 'Failed')"
+                  },
+                  "runAfter": {},
+                  "type": "Query"
+                },
+                "For_each": {
+                  "actions": {
+                    "ErrorParser": {
+                      "inputs": {
+                        "body": "@items('For_each')",
+                        "function": {
+                          "id": "[variables('varFuncResId')]"
+                        }
+                      },
+                      "runAfter": {},
+                      "type": "Function"
+                    },
+                    "Send_Exception_Message_To_Audit_Queue": {
+                      "inputs": {
+                        "body": {
+                          "ContentData": "@{base64(concat('{','\n','    \"trackType\": \"ERROR\",','\n','    \"runId\": \"',workflow()['run']['name'],'\",','\n','    \"error\": {','\n','        \"code\": \"',body('ErrorParser')?['code'],'\",','\n','        \"message\": \"',body('ErrorParser')?['message'],'\"','\n','    }','\n','}','\n'))}",
+                          "ContentType": "application/json"
+                        },
+                        "host": {
+                          "connection": {
+                            "name": "@parameters('$connections')['servicebus']['connectionId']"
+                          }
+                        },
+                        "method": "post",
+                        "path": "/@{encodeURIComponent(encodeURIComponent('sbq-snd-audit-all'))}/messages",
+                        "queries": {
+                          "systemProperties": "Run Details"
+                        }
+                      },
+                      "runAfter": {
+                        "ErrorParser": [
+                          "Succeeded"
+                        ]
+                      },
+                      "type": "ApiConnection"
+                    }
+                  },
+                  "foreach": "@body('Filter_Error_Object')",
+                  "runAfter": {
+                    "Filter_Error_Object": [
+                      "Succeeded"
+                    ]
+                  },
+                  "type": "Foreach"
+                },
+                "Terminate": {
+                        "inputs": {
+                            "runStatus": "Failed"
+                        },
+                        "runAfter": {
+                            "For_each": [
+                                "Succeeded"
+                            ]
+                        },
+                        "type": "Terminate"
+                    }
+              },
+              "runAfter": {
+                "Scope_Publish_Message": [
+                  "Failed",
+                  "TimedOut"
+                ]
+              },
+              "type": "Scope"
+            },
+            "Initialize_Track_Object_Variable": {
+              "inputs": {
+                "variables": [
+                  {
+                    "name": "var_trackObject",
+                    "type": "object",
+                    "value": {
+                      "BusinessDocID": "",
+                      "Direction": "Outbound",
+                      "FunctionalGroup": "TAX",
+                      "LastUpdatedBy": "BizTalk",
+                      "LastUpdatedDate": "@utcNow('yyyy-MM-ddTHH:mm:ss')",
+                      "LyoCompanyCode": "",
+                      "MessageType": "EDI",
+                      "SourceFileName": "@triggerBody()?['Name']",
+                      "SourceFilePath": "@triggerBody()?['Path']",
+                      "SvcName": "ExciseTax_813",
+                      "SvcNameType": "Interface",
+                      "SvcStart": "@utcNow('yyyy-MM-ddTHH:mm:ss')",
+                      "SvcStatus": "Open",
+                      "TechnicalDocID": "@variables('var_trackingId')",
+                      "TransactionType": "813"
+                    }
+                  }
+                ]
+              },
+              "runAfter": {
+                "Initialize_TrackingId_variable": [
+                  "Succeeded"
+                ]
+              },
+              "trackedProperties": {
+                "SourceFileName": "@action().inputs.variables[0].value",
+                "SvcName": "EXCISETAX813"
+              },
+              "type": "InitializeVariable"
+            },
+            "Initialize_TrackingId_variable": {
+              "inputs": {
+                "variables": [
+                  {
+                    "name": "var_trackingId",
+                    "type": "string",
+                    "value": "@{guid()}"
+                  }
+                ]
+              },
+              "runAfter": {},
+              "type": "InitializeVariable"
+            },
+            "Scope_Publish_Message": {
+              "actions": {
+                "Create_Blob": {
+                  "inputs": {
+                    "body": "@base64ToString(body('Encode_to_X12')?['payload'])",
+                    "headers": {
+                      "lyb-blob-operation": "CREATE"
+                    },
+                    "host": {
+                      "triggerName": "manual",
+                      "workflow": {
+                        "id": "[variables('varNestedLogicAppResIdBlob')]"
+                      }
+                    }
+                  },
+                  "runAfter": {
+                    "Encode_to_X12": [
+                      "Succeeded"
+                    ]
+                  },
+                  "type": "Workflow"
+                },
+                "Delete_File_From_Source": {
+                  "inputs": {
+                    "host": {
+                      "connection": {
+                        "name": "@parameters('$connections')['isefilesystem']['connectionId']"
+                      }
+                    },
+                    "method": "delete",
+                    "path": "/datasets/default/files/@{encodeURIComponent(encodeURIComponent(triggerBody()?['Path']))}"
+                  },
+                  "runAfter": {
+                    "Send_Messages": [
+                      "Succeeded"
+                    ]
+                  },
+                  "type": "ApiConnection"
+                },
+                "Encode_to_X12": {
+                  "inputs": {
+                    "body": "@body('Transform_XML')",
+                    "headers": {
+                      "lyb-x12-agreement": "agLyondell_To_IRS"
+                    },
+                    "host": {
+                      "triggerName": "manual",
+                      "workflow": {
+                        "id": "[variables('varNestedLogicAppResIdEncodeX12')]"
+                      }
+                    },
+                    "method": "post",
+                    "path": "/encode/resolvebyname",
+                    "queries": {
+                      "agreementName": "agLyondell_To_IRS"
+                    }
+                  },
+                  "runAfter": {
+                    "Transform_XML": [
+                      "Succeeded"
+                    ]
+                  },
+                  "type": "Workflow"
+                },
+                "Get_file_content_using_path": {
+                  "inputs": {
+                    "host": {
+                      "connection": {
+                        "name": "@parameters('$connections')['isefilesystem']['connectionId']"
+                      }
+                    },
+                    "method": "get",
+                    "path": "/datasets/default/GetFileContentByPath",
+                    "queries": {
+                      "inferContentType": true,
+                      "path": "@triggerBody()?['Path']",
+                      "queryParametersSingleEncoded": true
+                    }
+                  },
+                  "runAfter": {},
+                  "type": "ApiConnection"
+                },
+                "Send_Messages": {
+                  "inputs": {
+                    "body": {
+                      "Properties": {
+                        "appName": "EXCISETAX813",
+                        "entityType": "ALL",
+                        "LEGACY_ChannelName": "IRS",
+                        "overwrite ": true,
+                        "sourceContentBlobPath": "@{body('Create_Blob')?['Path']}",
+                        "sourceFileName": "@concat('{',variables('var_trackingId'),'}.edi')",
+                        "trackingId": "@variables('var_trackingId')",
+                        "fileName": "@concat('{',variables('var_trackingId'),'}.edi')",
+                        "filePath": "[parameters('sendport')]"
+                      }
+                    },
+                    "host": {
+                      "connection": {
+                        "name": "@parameters('$connections')['servicebus']['connectionId']"
+                      }
+                    },
+                    "method": "post",
+                    "path": "/@{encodeURIComponent(encodeURIComponent('sbt-cmn-publish'))}/messages",
+                    "queries": {
+                      "systemProperties": "Run Details"
+                    }
+                  },
+                  "runAfter": {
+                    "Create_Blob": [
+                      "Succeeded"
+                    ]
+                  },
+                  "type": "ApiConnection"
+                },
+                "Transform_XML": {
+                  "inputs": {
+                    "body": "@body('Get_file_content_using_path')",
+                    "headers": {
+                      "lyb-transform-name": "Map813XML_To_X12_4030_813"
+                    },
+                    "host": {
+                      "triggerName": "manual",
+                      "workflow": {
+                        "id": "[variables('varNestedLogicAppResIdTransform')]"
+                      }
+                    }
+                  },
+                  "runAfter": {
+                    "Get_file_content_using_path": [
+                      "Succeeded"
+                    ]
+                  },
+                  "type": "Workflow"
+                }
+              },
+              "runAfter": {
+                "Initialize_Track_Object_Variable": [
+                  "Succeeded"
+                ]
+              },
+              "type": "Scope"
+            },
+            "Send_Audit_Message_To_Queue": {
+              "inputs": {
+                "body": [
+                  {
+                    "ContentData": "@{base64(concat('{    ','\n','\"trackType\": \"RUN\",   ','\n',' \"run\": {       ','\n','              \"runId\": \"',workflow()['run']['name'],'\",','\n','              \"name\": \"',workflow()['name']       ,'\",','\n','             \"correlationId\": \"',string(variables('var_trackingId')),'\"','\n','         }','\n','}'))}",
+                    "ContentType": "application/json"
+                  },
+                  {
+                    "ContentData": "@{base64(concat('{','\n','    \"trackType\": \"PROPERTY\", ','\n','   \"runId\": \"',workflow()['run']['name'],'\",','\n','  \"properties\":  ',variables('var_trackObject'),' ','\n','}','\n','}'))}",
+                    "ContentType": "application/json"
+                  }
+                ],
+                "host": {
+                  "connection": {
+                    "name": "@parameters('$connections')['servicebus']['connectionId']"
+                  }
+                },
+                "method": "post",
+                "path": "/@{encodeURIComponent(encodeURIComponent('sbq-snd-audit-all'))}/messages/batch",
+                "queries": {
+                  "systemProperties": "Run Details"
+                }
+              },
+              "runAfter": {
+                "Initialize_Track_Object_Variable": [
+                  "Succeeded"
+                ]
+              },
+              "type": "ApiConnection"
+            }
+          },
+          "parameters": {
+            "$connections": {
+              "defaultValue": {},
+              "type": "Object"
+            }
+          },
+          "triggers": {
+            "When_files_are_added_or_modified_(properties_only)": {
+              "type": "ApiConnection",
+              "inputs": {
+                "host": {
+                  "connection": {
+                    "name": "@parameters('$connections')['isefilesystem']['connectionId']"
+                  }
+                },
+                "method": "get",
+                "path": "/datasets/default/triggers/batch/onupdatedfile",
+                "queries": {
+                  "folderId": "[parameters('folder')]",
+                  "maxFileCount": 10
+                }
+              },
+              "recurrence": {
+                "frequency": "Second",
+                "interval": "[parameters('pollingInterval')]"
+              },
+              "conditions": [
+                {
+                  "expression": "@equals(triggerBody()?['Name'],'ExciseTax_4030.xml')"
+                }
+              ],
+              "splitOn": "@triggerBody()"
+            }
+          },
+          "contentVersion": "1.0.0.0",
+          "outputs": {}
+        },
+        "parameters": {
+          "$connections": {
+            "value": {
+              "isefilesystem": {
+                "id": "[concat(variables('varISEId'), '/managedApis/isefilesystem')]",
+                "connectionId": "[resourceId('Microsoft.Web/connections', variables('varfsConn'))]",
+                "connectionName": "[variables('varfsConn')]"
+              },
+              "servicebus": {
+                "id": "[concat(variables('varISEId'), '/managedApis/servicebus')]",
+                "connectionId": "[resourceId('Microsoft.Web/connections', variables('varsbConnectionName'))]",
+                "connectionName": "[variables('varsbConnectionName')]"
+              }
+            }
+          }
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/connections', variables('varfsConn'))]",
+        "[resourceId('Microsoft.Web/connections', variables('varsbConnectionName'))]"
+      ]
+    },
+    {
+      "type": "MICROSOFT.WEB/CONNECTIONS",
+      "apiVersion": "2018-07-01-preview",
+      "name": "[variables('varfsConn')]",
+      "location": "[parameters('logicAppLocation')]",
+      "properties": {
+        "api": {
+          "id": "[concat(variables('varISEId'), '/managedApis/isefilesystem')]"
+        },
+        "displayName": "[variables('varfsConn')]",
+        "parameterValues": {
+          "rootFolder": "[parameters('isefilesystemRootFolder')]",
+          "userName": "[parameters('kvisefilesystemUserName')]",
+          "password": "[parameters('kvisefilesystemPassword')]"
+        }
+      }
+    },
+    {
+      "type": "MICROSOFT.WEB/CONNECTIONS",
+      "apiVersion": "2018-07-01-preview",
+      "name": "[variables('varsbConnectionName')]",
+      "location": "[parameters('logicAppLocation')]",
+      "properties": {
+        "api": {
+          "id": "[concat(variables('varISEId'), '/managedApis/servicebus')]"
+        },
+        "displayName": "[variables('varsbConnectionName')]",
+        "parameterValues": {
+          "connectionString": "[listkeys(variables('varAuthRuleResourceId'), '2017-04-01').primaryConnectionString]"
+        }
+      }
+    }
+  ],
+  "outputs": {}
+}

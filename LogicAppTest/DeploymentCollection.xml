@@ -1,0 +1,26 @@
+<Collection>
+	  <Resources ResourceGroup="rg-integration-systemapp-dev">
+		<Resource Type="ServiceBus" Name="sb-integration-lyb-dev">
+		  <Resource Type="Topics" Name="sbt-cmn-publish">
+			<Resource Type="Subscription" Name="sbs-excisetax813">
+			  <Property Key="AutoDeleteOnIdle" Value="P10675199DT2H48M5.4775807S"/>
+			  <Property Key="DefaultMessageTimeToLive" Value="PT30S"/>
+			  <Property Key="DeadLetteringOnMessageExpiration" Value="True"/>
+			  <Property Key="EnableBatchedOperations" Value="True"/>
+			  <Property Key="LockDuration" Value="PT30S"/>
+			  <Property Key="MaxDeliveryCount" Value="1"/>
+			  <Property Key="MessageCount" Value="0"/>
+			  <Property Key="RequiresSession" Value="False"/>
+			  <Property Key="Status" Value="Active"/>
+			  <Property Key="ForwardTo" Value="sbq-snd-fs-interchange-server"/>
+			  <Property Key="ForwardDeadLetteredMessagesTo" Value="sbq-snd-dlq"/>
+			  <Property Key="DeadLetteringOnFilterEvaluationExceptions" Value="True"/>
+			  <Resource Type="Rule" Name="filterProperty">
+				<Property Key="FilterType" Value="SqlFilter"/>
+				<Property Key="SqlFilter" Value="SqlExpression: LEGACY_ChannelName = 'IRS' , CompatibilityLevel: 20" />
+			  </Resource>
+			</Resource>
+		  </Resource>
+		</Resource>
+	  </Resources>
+  </Collection>
