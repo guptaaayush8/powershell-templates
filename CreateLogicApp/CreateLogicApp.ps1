@@ -151,51 +151,28 @@ foreach($File in $Files){
    foreach($SLNName in $SLNNames){
         $LappJSONS = ($Lapps|? {$_.RepoName -eq $SLNName})
         CreateSolnFiles -ProjectName $SLNName -LappJSONS $LappJSONS.FileName
-        foreach($lapp in $LappJSONS){
+        foreach($lapp in $LappJSONS){}
             
             $BaseTmp = gc .\Config\BaseLappFile\CommonARM.json |ConvertFrom-Json
             $BaseParamDEV = gc .\Config\BaseLappFile\CommonARMParamDEV.json |ConvertFrom-Json
             $BaseParamSTG = gc .\Config\BaseLappFile\CommonARMParamSTG.json |ConvertFrom-Json
             $BaseParamPRD = gc .\Config\BaseLappFile\CommonARMParamPRD.json |ConvertFrom-Json
-            #InboundPort
-            if($lapp.InboundPort -ne $null){
-               try{
-               $AdditiveTmp = gc ".\Config\InboundPort\$($lapp.inboundport)\template.json"|ConvertFrom-Json
-               $AdditiveParamDEV = gc ".\Config\InboundPort\$($lapp.InboundPort)\paramDEV.json"|ConvertFrom-Json
-               $AdditiveParamSTG = gc ".\Config\InboundPort\$($lapp.InboundPort)\paramSTG.json"|ConvertFrom-Json
-               $AdditiveParamPRD = gc ".\Config\InboundPort\$($lapp.InboundPort)\paramPRD.json"|ConvertFrom-Json
+
+            $Properties = (($Lapp|gm -MemberType NoteProperty)|?{$_.Name -ne 'FileName' -and $_.Name -ne 'RepoName'}).Name
+
+            foreach($Property in $Properties){
+                try{
+               $AdditiveTmp = gc ".\Config\$Property\$($lapp.$Property)\template.json"|ConvertFrom-Json
+               $AdditiveParamDEV = gc ".\Config\$Property\$($lapp.$Property)\paramDEV.json"|ConvertFrom-Json
+               $AdditiveParamSTG = gc ".\Config\$Property\$($lapp.$Property)\paramSTG.json"|ConvertFrom-Json
+               $AdditiveParamPRD = gc ".\Config\$Property\$($lapp.$Property)\paramPRD.json"|ConvertFrom-Json
                $BaseTmp = CombineJSONS -BaseTmp $BaseTmp -AdditiveTmp $AdditiveTmp
                $BaseParamDEV = CombineObject -BaseTmpObject $BaseParamDEV -AddObject $AdditiveParamDEV
                $BaseParamSTG = CombineObject -BaseTmpObject $BaseParamSTG -AddObject $AdditiveParamSTG
                $BaseParamPRD = CombineObject -BaseTmpObject $BaseParamPRD -AddObject $AdditiveParamPRD
                }catch{}
             }
-            #OutBound
-            if($lapp.Outbound -ne $null){
-               try{
-                    $AdditiveTmp = gc ".\Config\OutBound\$($lapp.Outbound)\template.json"|ConvertFrom-Json
-                    $AdditiveParamDEV = gc ".\Config\OutBound\$($lapp.Outbound)\paramDEV.json"|ConvertFrom-Json
-                    $AdditiveParamSTG = gc ".\Config\OutBound\$($lapp.Outbound)\paramSTG.json"|ConvertFrom-Json
-                    $AdditiveParamPRD = gc ".\Config\OutBound\$($lapp.Outbound)\paramPRD.json"|ConvertFrom-Json
-                    $BaseTmp = CombineJSONS -BaseTmp $BaseTmp -AdditiveTmp $AdditiveTmp
-                    $BaseParamDEV = CombineObject -BaseTmpObject $BaseParamDEV -AddObject $AdditiveParamDEV
-                    $BaseParamSTG = CombineObject -BaseTmpObject $BaseParamSTG -AddObject $AdditiveParamSTG
-                    $BaseParamPRD = CombineObject -BaseTmpObject $BaseParamPRD -AddObject $AdditiveParamPRD
-               }catch{}
-            }
-            #Backup
-            if($lapp.Backup -eq 'Yes'){
-               try{
-               $AdditiveTmp = gc ".\Config\Backup\Backup\template.json"|ConvertFrom-Json
-               $AdditiveParamDEV = gc ".\Config\Backup\Backup\paramDEV.json"|ConvertFrom-Json
-               $AdditiveParamSTG = gc ".\Config\Backup\Backup\paramSTG.json"|ConvertFrom-Json
-               $AdditiveParamPRD = gc ".\Config\Backup\Backup\paramPRD.json"|ConvertFrom-Json
-               $BaseTmp = CombineJSONS -BaseTmp $BaseTmp -AdditiveTmp $AdditiveTmp
-               $BaseParamDEV = CombineObject -BaseTmpObject $BaseParamDEV -AddObject $AdditiveParamDEV
-               $BaseParamSTG = CombineObject -BaseTmpObject $BaseParamSTG -AddObject $AdditiveParamSTG
-               $BaseParamPRD = CombineObject -BaseTmpObject $BaseParamPRD -AddObject $AdditiveParamPRD
-               }catch{}
-            }
+
 
             ($BaseTmp|ConvertTo-Json -Depth 99) -replace '\\u0027',"'" |Out-File -FilePath ".\OutPutSoln\$SLNName\logicapp-workflows\$($lapp.FileName).json"
             ($BaseParamDEV|ConvertTo-Json -Depth 99) -replace '\\u0027',"'" |Out-File -FilePath ".\OutPutSoln\$SLNName\logicapp-workflows\parameters\$($lapp.FileName).parameters.DEV.json"
@@ -204,7 +181,7 @@ foreach($File in $Files){
 
         }
    }
-}
+
 
 
 
